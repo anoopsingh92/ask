@@ -47,9 +47,10 @@ function normalizeNavLinks() {
   });
 
   // 6. Case Studya page
-  document.querySelectorAll('a[data-casestudy]').forEach(link => {
-    link.href = `${root}case-study.html`;
+  document.querySelectorAll('a[data-studies]').forEach(link => {
+    link.href = `${root}case-studies/`;
   });
+
 }
 
 document.addEventListener('DOMContentLoaded', normalizeNavLinks);

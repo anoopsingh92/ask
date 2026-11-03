@@ -4,19 +4,16 @@ import { resolve } from 'node:path';
 import { defineConfig, loadEnv } from 'vite';
 import injectHTML from 'vite-plugin-html-inject';
 
-// Dev server middleware plugin to serve 404.html on broken paths
 const dev404Plugin = () => ({
   name: 'dev-404-middleware',
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
-      // Allow API or Vite internal requests
       if (req.url.startsWith('/@') || req.url.includes('.')) {
         return next();
       }
 
       const cleanUrl = req.url.replace(/^\/ask/, '').replace(/\/$/, '');
 
-      // Registered valid routes in your MPA
       const validPaths = [
         '',
         '/about',
@@ -25,14 +22,21 @@ const dev404Plugin = () => ({
         '/products/flexistyle-bootstrap',
         '/products/flexistyle-bootstrap-scss',
         '/products/flexistyle-dxp',
-        '/products/workpulse', // Added valid route
+        '/products/workpulse',
+        '/case-studies',
+        '/case-studies/anoop-singh-portfolio',
+        '/case-studies/flexi-style',
+        '/case-studies/flexistyle-bootstrap',
+        '/case-studies/flexistyle-bootstrap-scss',
+        '/case-studies/flexistyle-dxp',
+        '/case-studies/workpulse',
       ];
 
       if (!validPaths.includes(cleanUrl)) {
         const file404 = resolve(import.meta.dirname, '404.html');
         if (fs.existsSync(file404)) {
           let html = fs.readFileSync(file404, 'utf-8');
-          server.transformIndexHtml(req.url, html).then(transformed => {
+          server.transformIndexHtml(req.url, html).then((transformed) => {
             res.statusCode = 404;
             res.setHeader('Content-Type', 'text/html');
             res.end(transformed);
@@ -78,6 +82,13 @@ export default defineConfig(({ mode }) => {
           productBootstrapScss: resolve(import.meta.dirname, 'products/flexistyle-bootstrap-scss/index.html'),
           productDxp: resolve(import.meta.dirname, 'products/flexistyle-dxp/index.html'),
           workpulse: resolve(import.meta.dirname, 'products/workpulse/index.html'),
+          caseStudies: resolve(import.meta.dirname, 'case-studies/index.html'),
+          caseStudiesAnoopSingh: resolve(import.meta.dirname, 'case-studies/anoop-singh-portfolio/index.html'),
+          caseStudiesFlexiStyle: resolve(import.meta.dirname, 'case-studies/flexi-style/index.html'),
+          caseStudiesFlexiStyleBootstrap: resolve(import.meta.dirname, 'case-studies/flexistyle-bootstrap/index.html'),
+          caseStudiesFlexiStyleBootstrapScss: resolve(import.meta.dirname, 'case-studies/flexistyle-bootstrap-scss/index.html'),
+          caseStudiesFlexiStyleDxp: resolve(import.meta.dirname, 'case-studies/flexistyle-dxp/index.html'),
+          caseStudiesWorkpulse: resolve(import.meta.dirname, 'case-studies/workpulse/index.html'),
         },
         output: {
           entryFileNames: 'assets/[name].min.js',

@@ -3,7 +3,7 @@ const STATIC_ASSETS = [
   './',
   './about/',
   './products/',
-  './case-study.html',
+  './case-studies/',
   './404.html',
   './assets/bundle.min.css',
   './assets/bundle.min.js',

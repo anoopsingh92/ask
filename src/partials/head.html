@@ -3,7 +3,9 @@
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon-16x16.png" />
 <link rel="icon" type="image/x-icon" sizes="16x16" href="/favicon.ico" />
 
-<link rel="help" type="text/plain" href="/llms.txt" />
+<!-- LLMs / AI Discoverability -->
+<link rel="llms-txt" type="text/markdown" href="/llms.txt" />
+<link rel="alternate" type="text/markdown" title="LLM Context" href="/llms.txt" />
 <link rel="manifest" href="/manifest.json" />
 
 <!-- Asynchronous stylesheet loading pattern -->
@@ -15,6 +17,11 @@
 <noscript>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+</noscript>
+<link rel="preload" href="./assets/bundle.min.css" as="style" crossorigin="anonymous"
+  onload="this.onload=null;this.rel='stylesheet'" />
+<noscript>
+  <link rel="stylesheet" href="./assets/bundle.min.css" />
 </noscript>
 
 <!-- Top of body / inside src/partials/header.html -->
@@ -40,3 +47,42 @@
     document.documentElement.dataset.theme = theme;
   })();
 </script>
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://anoopsingh92.github.io/ask",
+          "name": "Anoop Singh",
+          "jobTitle": "Senior Software Engineer & Tech Lead",
+          "url": "https://anoopsingh92.github.io",
+          "sameAs": [
+            "https://github.com/anoopsingh92",
+            "https://www.drupal.org/u/anoopsingh92",
+            "https://www.linkedin.com/in/anoopsingh92"
+          ],
+          "knowsAbout": [
+            "Drupal",
+            "Front-End Architecture",
+            "React",
+            "Next.js",
+            "Tailwind CSS",
+            "Performance Optimization"
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://anoopsingh92.github.io/ask/",
+          "url": "https://anoopsingh92.github.io/ask/",
+          "name": "Ask Anoop Singh — Developer Profile & AI Hub",
+          "description": "Interactive ask and portfolio hub for Anoop Singh, Senior Software Engineer and Tech Lead.",
+          "about": {
+            "@id": "https://anoopsingh92.github.io/ask"
+          },
+          "inLanguage": "en"
+        }
+      ]
+    }
+    </script>
