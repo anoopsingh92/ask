@@ -1,7 +1,7 @@
 // src/js/script.js
 
 // Dynamic root resolution that respects Vite's BASE_PATH (/ask/ or /)
-var getAppRoot = () => {
+export var getAppRoot = () => {
   const path = window.location.pathname;
   const match = path.match(/^(.*?\/ask\/|^\/)/);
   let root = match ? match[1] : '/';
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', normalizeNavLinks);
 const $ = s => document.querySelector(s),
   $$ = s => [...document.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
-if (location.hash === '#me') location.replace('/about');
+if (location.hash === '#me') location.replace(getAppRoot() + 'about/');
 
 /* ===================================================
    SMOOTH SCROLLING ENGINE (Eased Anchors + Wheel Inertia)
@@ -203,6 +203,53 @@ $$('.rv').forEach(e => io.observe(e));
 /* Scroll Progress & Active Nav */
 const links = $$('nav ul a');
 
+// Which top-level page are we on? '' (home), 'about', 'products', 'case-studies'
+const currentSection = () => {
+  const rel = window.location.pathname.slice(getAppRoot().length);
+  return rel.split('/').filter(Boolean)[0] || '';
+};
+
+const PAGE_LINK_ATTR = { about: 'data-page', products: 'data-products', 'case-studies': 'data-studies' };
+
+function updateActiveNav() {
+  const section = currentSection();
+
+  // Sub-pages (/about/, /products/*, /case-studies/*): highlight only the matching page link
+  if (section) {
+    const attr = PAGE_LINK_ATTR[section];
+    links.forEach(a => a.classList.toggle('on', !!attr && a.hasAttribute(attr)));
+    return;
+  }
+
+  // Homepage: scroll-spy on in-page anchors; page links are never active here
+  links.forEach(a => {
+    const rawHref = a.getAttribute('href') || '';
+    const hashIndex = rawHref.indexOf('#');
+    if (!a.hasAttribute('data-nav') || hashIndex === -1) {
+      a.classList.remove('on');
+      return;
+    }
+
+    const selector = rawHref.slice(hashIndex); // '#about', '#skillset', ...
+    if (selector === '#' || selector === '#top') {
+      a.classList.remove('on');
+      return;
+    }
+
+    try {
+      const s = $(selector);
+      if (s && !s.closest('[hidden]')) {
+        const r = s.getBoundingClientRect();
+        a.classList.toggle('on', r.top < window.innerHeight * 0.45 && r.bottom > window.innerHeight * 0.45);
+      } else {
+        a.classList.remove('on');
+      }
+    } catch (e) {
+      a.classList.remove('on');
+    }
+  });
+}
+
 window.addEventListener(
   'scroll',
   () => {
@@ -210,52 +257,16 @@ window.addEventListener(
     const bar = $('#bar');
     const max = Math.max(1, h.scrollHeight - h.clientHeight);
     if (bar) bar.style.width = (h.scrollTop / max) * 100 + '%';
-
-    // If on /about/, homepage section links should not be active
-    const isAboutPage = window.location.pathname.includes('/about');
-    if (isAboutPage) {
-      links.forEach(a => {
-        const href = a.getAttribute('href') || '';
-        a.classList.toggle('on', href.includes('about'));
-      });
-      return;
-    }
-
-    // On homepage: calculate active state only for anchor hashes
-    links.forEach(a => {
-      const rawHref = a.getAttribute('href') || '';
-
-      // Skip non-hash links like '/about/' to prevent querySelector crash
-      const hashIndex = rawHref.indexOf('#');
-      if (hashIndex === -1) {
-        a.classList.remove('on');
-        return;
-      }
-
-      const selector = rawHref.slice(hashIndex); // Extracts only '#about', '#skillset', etc.
-      if (selector === '#' || selector === '#top') {
-        a.classList.remove('on');
-        return;
-      }
-
-      try {
-        const s = $(selector);
-        if (s && !s.closest('[hidden]')) {
-          const r = s.getBoundingClientRect();
-          a.classList.toggle(
-            'on',
-            r.top < window.innerHeight * 0.45 && r.bottom > window.innerHeight * 0.45
-          );
-        } else {
-          a.classList.remove('on');
-        }
-      } catch (e) {
-        a.classList.remove('on');
-      }
-    });
+    updateActiveNav();
   },
   { passive: true }
 );
+
+// Set the initial state without waiting for a scroll (hrefs are normalized on DOMContentLoaded)
+document.addEventListener('DOMContentLoaded', updateActiveNav);
+window.addEventListener('load', updateActiveNav);
+window.addEventListener('hashchange', updateActiveNav);
+window.addEventListener('pageshow', updateActiveNav);
 // src/assets/js/main.js
 
 // Ensure html.is-ready is added immediately to prevent white screens

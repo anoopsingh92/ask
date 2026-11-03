@@ -2,62 +2,74 @@
 export const caseStudies = [
   {
     id: 'flexi-style',
+    group: 'open-source',
     title: 'FlexiStyle: Pure CSS Variable Base Theme for Drupal 9–11',
     category: 'CSS Architecture · Open Source',
     client: 'Drupal Community',
     excerpt: 'Architecting an unopinionated, WCAG 2.1 AA foundation stripped of legacy JS bloat, cutting default theme assets by 60%.',
     tags: ['Drupal 10/11', 'CSS Custom Props', 'Twig 3', 'Zero JS'],
-    stats: { Lighthouse: '100', CSSSize: '<14KB' },
+    stats: { Lighthouse: '100', 'CSS Size': '<14KB' },
+    image: 'https://www.drupal.org/files/styles/grid-3-2x/public/project-images/flexustyle_base_theme.png',
     link: 'flexi-style/'
   },
   {
     id: 'flexistyle-bootstrap',
+    group: 'open-source',
     title: 'FlexiStyle Bootstrap: Modern Vanilla Sub-Theme Framework',
     category: 'Theme Engineering · UI Systems',
     client: 'Drupal Community',
     excerpt: 'Integrating Bootstrap 5 vanilla ES6 components into Drupal Layout Builder and Views with zero jQuery dependencies.',
     tags: ['Bootstrap 5', 'Drupal 11', 'Vanilla JS', 'Layout Builder'],
-    stats: { CWV: '99', jQuery: '0%' },
+    stats: { 'Core Web Vitals': '99', jQuery: '0%' },
+    image: 'https://www.drupal.org/files/styles/grid-3-2x/public/project-images/flexistyle_bootstratp_base.png',
     link: 'flexistyle-bootstrap/'
   },
   {
     id: 'flexistyle-bootstrap-scss',
+    group: 'open-source',
     title: 'FlexiStyle Bootstrap SCSS: Enterprise Build & Token Pipeline',
     category: 'DevOps · Asset Pipeline',
     client: 'Enterprise Theming',
     excerpt: 'Structuring modular design tokens and automated Vite/PostCSS compilation, accelerating build cycles down to 180ms.',
     tags: ['Vite', 'SCSS Tokens', 'PostCSS', 'Hot Reload'],
-    stats: { CSSReduction: '-42%', Compile: '180ms' },
+    stats: { 'CSS Reduction': '-42%', Compile: '180ms' },
+    image: 'https://www.drupal.org/files/styles/grid-3-2x/public/project-images/flexistyle_bootstratp_scss_base.png',
     link: 'flexistyle-bootstrap-scss/'
   },
   {
     id: 'flexistyle-dxp',
+    group: 'headless',
     title: 'Enterprise Headless Drupal DXP Transformation',
     category: 'Headless CMS · Decoupled DXP',
     client: 'NextOpcode',
     excerpt: 'Pairing decoupled Next.js with robust Drupal JSON:API endpoints to achieve sub-second TTFB and near-perfect Core Web Vitals.',
     tags: ['Next.js', 'Drupal 11 DXP', 'JSON:API', 'Edge Cache'],
-    stats: { SpeedBoost: '+64%', LCP: '0.8s' },
+    stats: { 'Speed Boost': '+64%', LCP: '0.8s' },
+    image: 'assets/img/flexistyle-dxp.png',
     link: 'flexistyle-dxp/'
   },
   {
     id: 'workpulse',
+    group: 'saas',
     title: 'WorkPulse: Enterprise Workforce Management & Analytics SaaS',
     category: 'Full-Stack SaaS · Systems OS',
     client: 'NextOpcode Consulting',
     excerpt: 'Engineering an integrated workforce tracker with real-time sprint schedules, attendance metrics, and granular RBAC security.',
     tags: ['React', 'Next.js', 'Tailwind CSS', 'GraphQL'],
-    stats: { Uptime: '99.98%', ActiveUsers: '1.2k+' },
+    stats: { Uptime: '99.98%', 'Active Users': '1.2k+' },
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
     link: 'workpulse/'
   },
   {
     id: 'anoop-singh-portfolio',
+    group: 'performance',
     title: 'Personal Portfolio: Sub-Second Multi-Page App Architecture',
     category: 'Performance Engineering · AI/GEO',
     client: 'Personal Hub',
     excerpt: 'Crafting a static Vite MPA with interactive canvas particles, GSAP momentum inertia, zero CLS, and full llms.txt discovery.',
     tags: ['Vite MPA', 'GSAP ScrollTrigger', 'HTML Inject', 'Schema.org'],
     stats: { PageSpeed: '100', SEO: '100' },
+    image: 'assets/img/screenshot-wide.png',
     link: 'anoop-singh-portfolio/'
   }
 ];
