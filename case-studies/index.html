@@ -14,40 +14,52 @@
     <a class="skip-link" href="#case-studies-main">Skip to main content</a>
     <load src="/src/partials/header.html" />
 
-    <main id="case-studies-main"
-      style="max-width: 1200px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
+    <main id="case-studies-main" class="ls-main">
       <!-- Hero / Header Section -->
-      <header class="prod-hero-header rv in" style="margin-bottom: 2.5rem;">
+      <header class="ls-hero rv in">
         <h1 class="mh">
           Case <span>Studies.</span>
         </h1>
-        <p class="lead" style="max-width: 72ch; color: var(--mut); font-size: 1.12rem; line-height: 1.65;">
+        <p class="lead ls-lead">
           Technical breakdowns of enterprise CMS implementations, theme design systems, decoupled Next.js architectures,
           and scalable web engineering.
         </p>
       </header>
 
       <!-- Key Metrics Overview Strip -->
-      <div class="stats rv in" style="margin-bottom: 40px;">
+      <div class="ls-summary rv in">
         <div class="stat"><b>6</b><span>Documented Studies</span></div>
         <div class="stat"><b>99+</b><span>Avg Lighthouse Score</span></div>
         <div class="stat"><b>100%</b><span>WCAG Accessibility</span></div>
         <div class="stat"><b>D7–11</b><span>Core Evolution</span></div>
       </div>
 
-      <!-- Category Filter Pills -->
-      <div class="xf rv in" id="cs-filters" style="margin-bottom: 28px;">
-        <button type="button" data-filter="all" aria-pressed="true">All Case Studies (6)</button>
-        <button type="button" data-filter="open-source" aria-pressed="false">Themes &amp; Frameworks</button>
-        <button type="button" data-filter="headless" aria-pressed="false">Headless &amp; DXP</button>
-        <button type="button" data-filter="saas" aria-pressed="false">SaaS Platforms</button>
+      <!-- Toolbar: category filters, search, grid/list toggle -->
+      <div class="ls-toolbar">
+        <div class="xf" id="ls-filters" role="group" aria-label="Filter case studies by category">
+          <button type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="open-source" aria-pressed="false">Themes &amp; Frameworks</button>
+          <button type="button" data-filter="headless" aria-pressed="false">Headless &amp; DXP</button>
+          <button type="button" data-filter="saas" aria-pressed="false">SaaS Platforms</button>
+          <button type="button" data-filter="performance" aria-pressed="false">Performance &amp; Web</button>
+        </div>
+        <div class="ls-tools">
+          <input class="ls-search" id="ls-search" type="search" placeholder="Search case studies…"
+            aria-label="Search case studies" autocomplete="off" />
+          <div class="ls-view" id="ls-view" role="group" aria-label="Layout">
+            <button type="button" data-view="grid" aria-pressed="true" aria-label="Grid view" title="Grid view">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            </button>
+            <button type="button" data-view="list" aria-pressed="false" aria-label="List view" title="List view">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
+      <p class="ls-status" id="ls-status" role="status" aria-live="polite"></p>
 
-      <!-- Case Studies Grid Container -->
-      <div id="case-studies-grid" class="kit"
-        style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 540px), 1fr)); gap: 26px;">
-        <!-- Injected via src/main.js -->
-      </div>
+      <!-- Case Studies Grid Container (rendered by src/main.js) -->
+      <div id="case-studies-grid" class="ls-grid"></div>
     </main>
 
     <load src="/src/partials/footer.html" />

@@ -1,0 +1,584 @@
+/**
+ * ===================================================
+ *    GLOBAL LISTING STYLES
+ *    Shared by the Products and Case Studies listing pages:
+ *    page shell, hero, toolbar, flexbox grid / list cards.
+ *    Classes are prefixed "ls-".
+ * ===================================================
+ *
+ * @format
+ */
+
+:root {
+	--ls-gap: 22px;
+}
+
+/* ---------- Page shell ---------- */
+.ls-main {
+	width: min(1200px, calc(100% - 10vw));
+	margin: 0 auto;
+	padding: calc(110px + env(safe-area-inset-top, 0px)) 0 80px;
+	min-height: 85vh;
+}
+
+.ls-hero {
+	margin-bottom: 2.5rem;
+}
+
+.ls-hero .mh {
+	margin: 0.15em 0 0.25em;
+}
+
+.ls-lead {
+	max-width: 72ch;
+	margin: 0;
+	color: var(--mut);
+	font-size: 1.12rem;
+	line-height: 1.65;
+}
+
+/* Metrics strip (flex version of .stats) */
+.ls-summary {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 40px;
+}
+
+.ls-summary .stat {
+	flex: 1 1 calc(25% - 16px);
+	min-width: 180px;
+}
+
+/* ---------- Toolbar ---------- */
+.ls-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px 20px;
+	margin-bottom: 14px;
+}
+
+.ls-toolbar .xf {
+	margin-bottom: 0;
+}
+
+.ls-count {
+	display: inline-block;
+	margin-left: 8px;
+	padding: 0 7px;
+	min-width: 1.6em;
+	border-radius: 99px;
+	background: color-mix(in srgb, currentColor 14%, transparent);
+	font-size: 0.7rem;
+	line-height: 1.7;
+	text-align: center;
+}
+
+.ls-tools {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.ls-search {
+	font: inherit;
+	font-family: var(--mono);
+	font-size: 0.78rem;
+	color: var(--fg);
+	background: var(--card);
+	border: 1px solid var(--line);
+	border-radius: 99px;
+	padding: 8px 16px;
+	width: min(100%, 220px);
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s;
+}
+
+.ls-search::placeholder {
+	color: var(--mut);
+}
+
+.ls-search:focus-visible {
+	outline: none;
+	border-color: var(--ac);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ac) 22%, transparent);
+}
+
+.ls-view {
+	display: inline-flex;
+	border: 1px solid var(--line);
+	border-radius: 99px;
+	background: var(--card);
+	padding: 3px;
+}
+
+.ls-view button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 30px;
+	border: 0;
+	border-radius: 99px;
+	background: transparent;
+	color: var(--mut);
+	cursor: pointer;
+	transition:
+		background 0.2s,
+		color 0.2s;
+}
+
+.ls-view button svg {
+	width: 16px;
+	height: 16px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ls-view button[aria-pressed="true"] {
+	background: var(--ac);
+	color: var(--on);
+}
+
+.ls-view button:focus-visible,
+.ls-empty button:focus-visible {
+	outline: 2px solid var(--ac);
+	outline-offset: 2px;
+}
+
+.ls-status {
+	margin: 0 0 22px;
+	font-family: var(--mono);
+	font-size: 0.78rem;
+	color: var(--mut);
+}
+
+/* ---------- Flexbox grid / list container ---------- */
+.ls-grid {
+	--ls-cols: 3;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ls-gap);
+	margin-bottom: 50px;
+}
+
+.ls-grid.is-list {
+	--ls-cols: 1;
+	gap: 16px;
+}
+
+@media (max-width: 1099px) {
+	.ls-grid:not(.is-list) {
+		--ls-cols: 2;
+	}
+}
+
+@media (max-width: 680px) {
+	.ls-grid:not(.is-list) {
+		--ls-cols: 1;
+	}
+}
+
+/* ---------- Price tabs (products) ---------- */
+.ls-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid var(--line);
+}
+
+.ls-tabs button {
+	display: inline-flex;
+	align-items: center;
+	margin-bottom: -1px;
+	padding: 10px 18px;
+	border: 0;
+	border-bottom: 2px solid transparent;
+	background: none;
+	color: var(--mut);
+	font-family: var(--mono);
+	font-size: 0.86rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition:
+		color 0.2s,
+		border-color 0.2s;
+}
+
+.ls-tabs button:hover {
+	color: var(--fg);
+}
+
+.ls-tabs button[aria-pressed="true"] {
+	color: var(--ac);
+	border-bottom-color: var(--ac);
+}
+
+.ls-tabs button:focus-visible {
+	outline: 2px solid var(--ac);
+	outline-offset: -2px;
+	border-radius: 8px;
+}
+
+/* ---------- Card ---------- */
+.ls-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 calc((100% - (var(--ls-cols) - 1) * var(--ls-gap)) / var(--ls-cols));
+	max-width: calc(
+		(100% - (var(--ls-cols) - 1) * var(--ls-gap)) / var(--ls-cols)
+	);
+	min-width: 0;
+	background: var(--card);
+	border: 1px solid var(--line);
+	border-radius: 22px;
+	overflow: hidden;
+	animation: ls-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+	transition:
+		transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+		border-color 0.28s ease,
+		box-shadow 0.28s ease;
+}
+
+/* staggered entrance (no inline styles needed) */
+.ls-card:nth-child(2) {
+	animation-delay: 60ms;
+}
+.ls-card:nth-child(3) {
+	animation-delay: 120ms;
+}
+.ls-card:nth-child(4) {
+	animation-delay: 180ms;
+}
+.ls-card:nth-child(5) {
+	animation-delay: 240ms;
+}
+.ls-card:nth-child(6) {
+	animation-delay: 300ms;
+}
+.ls-card:nth-child(n + 7) {
+	animation-delay: 360ms;
+}
+
+.ls-card:hover,
+.ls-card:focus-within {
+	transform: translateY(-4px);
+	border-color: var(--ac);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+.ls-card:focus-within {
+	outline: 2px solid var(--ac);
+	outline-offset: 2px;
+}
+
+.ls-card.is-hidden {
+	display: none;
+}
+
+/* Image with badges */
+.ls-media {
+	position: relative;
+	flex: 0 0 auto;
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+	background: color-mix(in srgb, var(--ac) 8%, var(--bg));
+	border-bottom: 1px solid var(--line);
+}
+
+.ls-media img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center top;
+	transition: transform 0.5s ease;
+}
+
+.ls-card:hover .ls-media img {
+	transform: scale(1.05);
+}
+
+.ls-media::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 40%;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.28), transparent);
+	pointer-events: none;
+}
+
+.ls-cat,
+.ls-price {
+	position: absolute;
+	top: 14px;
+	z-index: 1;
+	padding: 5px 12px;
+	border-radius: 99px;
+	font-family: var(--mono);
+	font-size: 0.72rem;
+	font-weight: 600;
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+
+.ls-cat {
+	left: 14px;
+	color: var(--card);
+	background: var(--fg);
+	border: 1px solid color-mix(in srgb, var(--ac) 35%, transparent);
+}
+
+.ls-price {
+	right: 14px;
+	background: color-mix(in srgb, var(--card) 88%, transparent);
+}
+
+.ls-price.chip-free {
+	color: #0f9f6e;
+	border: 1px solid color-mix(in srgb, #10b981 50%, transparent);
+}
+
+.ls-price.chip-paid {
+	color: #d97706;
+	border: 1px solid color-mix(in srgb, #f59e0b 55%, transparent);
+}
+
+/* Text */
+.ls-main-col {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	min-width: 0;
+	padding: 22px 24px 0;
+}
+
+.ls-title {
+	margin: 0;
+	font-size: 1.25rem;
+	line-height: 1.3;
+	letter-spacing: -0.02em;
+}
+
+.ls-title a {
+	color: var(--fg);
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+/* whole card is clickable */
+.ls-title a::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
+
+.ls-title a:focus-visible {
+	outline: none;
+}
+
+.ls-card:hover .ls-title a {
+	color: var(--ac);
+}
+
+.ls-client {
+	margin: 0;
+	font-family: var(--mono);
+	font-size: 0.74rem;
+	color: var(--mut);
+}
+
+.ls-excerpt {
+	margin: 0;
+	color: var(--mut);
+	font-size: 0.93rem;
+	line-height: 1.65;
+}
+
+/* Footer: stats + button */
+.ls-side {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: auto;
+	padding: 20px 24px 24px;
+}
+
+.ls-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0;
+}
+
+.ls-stats div {
+	flex: 1 1 calc(50% - 5px);
+	min-width: 0;
+	padding: 9px 12px;
+	border-radius: 12px;
+	background: color-mix(in srgb, var(--ac) 7%, transparent);
+}
+
+.ls-stats dt {
+	font-family: var(--mono);
+	font-size: 0.66rem;
+	color: var(--mut);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ls-stats dd {
+	margin: 2px 0 0;
+	font-size: 1.15rem;
+	font-weight: 700;
+	color: var(--ac);
+	letter-spacing: -0.01em;
+}
+
+.ls-btn {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 11px 20px;
+	border-radius: 99px;
+	background: var(--ac);
+	color: var(--on);
+	border: 1px solid var(--ac);
+	font-family: var(--mono);
+	font-size: 0.82rem;
+	font-weight: 600;
+	text-decoration: none;
+	transition:
+		background 0.2s,
+		color 0.2s,
+		box-shadow 0.2s;
+}
+
+.ls-btn i {
+	font-style: normal;
+	transition: transform 0.25s ease;
+}
+
+.ls-btn:hover,
+.ls-btn:focus-visible {
+	background: transparent;
+	color: var(--ac);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ac) 18%, transparent);
+	outline: none;
+}
+
+.ls-btn:hover i,
+.ls-card:hover .ls-btn i {
+	transform: translateX(5px);
+}
+
+/* ---------- List view (wide screens) ---------- */
+@media (min-width: 860px) {
+	.ls-grid.is-list .ls-card {
+		flex-direction: row;
+		align-items: stretch;
+	}
+
+	.ls-grid.is-list .ls-media {
+		flex: 0 0 300px;
+		aspect-ratio: auto;
+		min-height: 210px;
+		border-bottom: 0;
+		border-right: 1px solid var(--line);
+	}
+
+	.ls-grid.is-list .ls-main-col {
+		flex: 1 1 auto;
+		justify-content: center;
+		padding: 24px 28px;
+	}
+
+	.ls-grid.is-list .ls-side {
+		flex: 0 0 250px;
+		margin-top: 0;
+		padding: 24px 28px 24px 0;
+		justify-content: center;
+	}
+}
+
+/* ---------- Empty state ---------- */
+.ls-empty {
+	flex: 0 0 100%;
+	text-align: center;
+	padding: 56px 20px;
+	border: 1px dashed var(--line);
+	border-radius: 22px;
+	color: var(--mut);
+}
+
+.ls-empty[hidden] {
+	display: none;
+}
+
+.ls-empty p {
+	margin: 0 0 16px;
+}
+
+.ls-empty button {
+	font-family: var(--mono);
+	font-size: 0.8rem;
+	padding: 8px 18px;
+	border-radius: 99px;
+	border: 1px solid var(--ac);
+	background: var(--ac);
+	color: var(--on);
+	cursor: pointer;
+}
+
+@keyframes ls-in {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ls-card {
+		animation: none;
+	}
+
+	.ls-card,
+	.ls-media img,
+	.ls-btn i {
+		transition: none;
+	}
+}
+
+@media (max-width: 520px) {
+	.ls-tools {
+		width: 100%;
+	}
+
+	.ls-search {
+		flex: 1 1 auto;
+		width: auto;
+	}
+
+	.ls-view {
+		display: none;
+	}
+}

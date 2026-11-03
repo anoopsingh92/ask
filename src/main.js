@@ -1,77 +1,127 @@
 // src/main.js
 import './css/style.css';
 import './css/products.css';
-import './js/script.js';
+import './css/listing.css';
+import { getAppRoot } from './js/script.js';
 import { caseStudies } from './js/case-studies-data.js';
+
+const esc = (v) =>
+  String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+const imageUrl = (src) => (/^https?:/.test(src) ? src : getAppRoot() + String(src).replace(/^\/+/, ''));
+
+function cardHTML(cs) {
+  const stats = Object.entries(cs.stats || {})
+    .map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`)
+    .join('');
+
+  return `
+    <article class="ls-card" data-group="${esc(cs.group || '')}">
+      <div class="ls-media">
+        <img src="${esc(imageUrl(cs.image))}" width="640" height="400" alt="${esc(cs.title)} preview" loading="lazy" decoding="async">
+        <span class="ls-cat">${esc(cs.category)}</span>
+      </div>
+      <div class="ls-main-col">
+        <h2 class="ls-title"><a href="${esc(cs.link)}">${esc(cs.title)}</a></h2>
+        <p class="ls-excerpt">${esc(cs.excerpt)}</p>
+      </div>
+      <div class="ls-side">
+        <dl class="ls-stats">${stats}</dl>
+        <a class="ls-btn" href="${esc(cs.link)}">Read case study <i aria-hidden="true">&rarr;</i></a>
+      </div>
+    </article>`;
+}
 
 function initCaseStudies() {
   const container = document.getElementById('case-studies-grid');
-  const filterWrap = document.getElementById('cs-filters');
   if (!container || !caseStudies.length) return;
 
-  function render(filter = 'all') {
-    const filtered = caseStudies.filter(cs => {
-      if (filter === 'all') return true;
-      if (filter === 'open-source') return cs.category.toLowerCase().includes('open source') || cs.category.toLowerCase().includes('theme');
-      if (filter === 'headless') return cs.category.toLowerCase().includes('headless') || cs.category.toLowerCase().includes('dxp');
-      if (filter === 'saas') return cs.category.toLowerCase().includes('saas');
-      return true;
-    });
+  const filterWrap = document.getElementById('ls-filters');
+  const search = document.getElementById('ls-search');
+  const status = document.getElementById('ls-status');
+  const viewBtns = document.querySelectorAll('#ls-view button');
 
-    container.innerHTML = filtered
-      .map(
-        (cs) => `
-      <article class="box rv in" style="display: flex; flex-direction: column; justify-content: space-between; gap: 20px; padding: 32px 28px; position: relative;">
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
-            <span style="font-family: var(--mono); font-size: 0.74rem; color: var(--ac); background: color-mix(in srgb, var(--ac) 12%, transparent); border: 1px solid color-mix(in srgb, var(--ac) 30%, transparent); padding: 4px 12px; border-radius: 99px; font-weight: 600;">
-              ${cs.category}
-            </span>
-            <span style="font-family: var(--mono); font-size: 0.76rem; color: var(--mut);">${cs.client}</span>
-          </div>
+  const state = { filter: 'all', query: '' };
 
-          <h2 style="font-size: 1.45rem; line-height: 1.3; margin: 0 0 12px; color: var(--fg); letter-spacing: -0.02em;">
-            <a href="${cs.link}" title="${cs.title}" style="color: inherit; text-decoration: none; transition: color 0.2s ease;">
-              ${cs.title}
-            </a>
-          </h2>
+  const matches = (cs) => {
+    if (state.filter !== 'all' && cs.group !== state.filter) return false;
+    if (!state.query) return true;
+    const hay = [cs.title, cs.category, cs.client, cs.excerpt, ...(cs.tags || [])].join(' ').toLowerCase();
+    return state.query.split(/\s+/).every((word) => hay.includes(word));
+  };
 
-          <p style="color: var(--mut); font-size: 0.94rem; line-height: 1.65; margin: 0 0 20px;">
-            ${cs.excerpt}
-          </p>
+  function render() {
+    const list = caseStudies.filter(matches);
 
-          <div class="chips" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
-            ${cs.tags.map(tag => `<span style="font-family: var(--mono); font-size: 0.72rem; border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; color: var(--fg);">${tag}</span>`).join('')}
-          </div>
-        </div>
+    container.innerHTML = list.length
+      ? list.map(cardHTML).join('')
+      : `<div class="ls-empty"><p>No case studies match your filters.</p><button type="button" id="ls-reset">Reset filters</button></div>`;
 
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; margin-top: auto; flex-wrap: wrap; gap: 12px;">
-          <div style="display: flex; gap: 16px; font-family: var(--mono); font-size: 0.8rem;">
-            ${Object.entries(cs.stats)
-            .map(([k, v]) => `<span><b style="color: var(--ac);">${v}</b> <small style="color: var(--mut);">${k}</small></span>`)
-            .join('')}
-          </div>
-          <a class="btn p" href="${cs.link}" title="Explore ${cs.title}" style="padding: 9px 20px; font-size: 0.82rem; text-decoration: none; white-space: nowrap;">
-            Read Deep-Dive &rarr;
-          </a>
-        </div>
-      </article>`
-      )
-      .join('');
+    if (status) {
+      status.textContent = `Showing ${list.length} of ${caseStudies.length} case ${caseStudies.length === 1 ? 'study' : 'studies'}`;
+    }
+
+    const reset = document.getElementById('ls-reset');
+    if (reset) {
+      reset.addEventListener('click', () => {
+        state.filter = 'all';
+        state.query = '';
+        if (search) search.value = '';
+        syncFilters();
+        render();
+      });
+    }
   }
 
-  // Filter button click handlers
+  function syncFilters() {
+    if (!filterWrap) return;
+    filterWrap.querySelectorAll('button').forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.filter === state.filter))
+    );
+  }
+
+  // Filter pills with live counts
   if (filterWrap) {
-    filterWrap.querySelectorAll('button').forEach(btn => {
+    filterWrap.querySelectorAll('button').forEach((btn) => {
+      const f = btn.dataset.filter;
+      const n = f === 'all' ? caseStudies.length : caseStudies.filter((c) => c.group === f).length;
+      btn.insertAdjacentHTML('beforeend', `<span class="ls-count">${n}</span>`);
       btn.addEventListener('click', () => {
-        filterWrap.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', 'false'));
-        btn.setAttribute('aria-pressed', 'true');
-        render(btn.dataset.filter);
+        state.filter = f;
+        syncFilters();
+        render();
       });
     });
   }
 
-  render('all');
+  // Search
+  if (search) {
+    search.addEventListener('input', () => {
+      state.query = search.value.trim().toLowerCase();
+      render();
+    });
+  }
+
+  // Grid / list toggle (remembered per browser)
+  const setView = (view) => {
+    container.classList.toggle('is-list', view === 'list');
+    viewBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+    try {
+      localStorage.setItem('ls-view', view);
+    } catch (e) {
+      /* storage unavailable */
+    }
+  };
+  viewBtns.forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+  let saved = 'grid';
+  try {
+    saved = localStorage.getItem('ls-view') === 'list' ? 'list' : 'grid';
+  } catch (e) {
+    /* storage unavailable */
+  }
+  setView(saved);
+
+  render();
 }
 
 if (document.readyState === 'loading') {

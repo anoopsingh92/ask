@@ -1,6 +1,6 @@
 # @format
 
-name: Minify & Deploy to GitHub Pages
+name: Build with Vite & Deploy to GitHub Pages
 
 on:
   push:
@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,17 +26,29 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: npm
 
-      - name: Minify CSS and JS into .min files
-        run: |
-          npx --yes esbuild assets/css/style.css --minify --outfile=assets/css/style.min.css
-          npx --yes esbuild assets/js/main.js --minify --outfile=assets/js/main.min.js
+      - name: Install dependencies
+        run: npm ci || npm install --no-audit --no-fund
+
+      - name: Build (Vite)
+        env:
+          BASE_PATH: /ask/
+        run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: dist
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
