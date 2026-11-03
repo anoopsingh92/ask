@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Case Study: FlexiStyle Bootstrap Sub-Theme — Anoop Singh</title>
+    <meta name="description"
+      content="Integrating modern Bootstrap 5 into Drupal without jQuery dependencies, built on FlexiStyle." />
+    <load src="/src/partials/head.html" />
+  </head>
+
+  <body class="pg-case-study-detail">
+    <a class="skip-link" href="#main-study">Skip to main content</a>
+    <load src="/src/partials/header.html" />
+
+    <main id="main-study"
+      style="max-width: 1100px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
+
+      <header style="margin-bottom: 3rem;">
+        <h1
+          style="font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.15; margin: 0.4em 0 0.3em; letter-spacing: -0.03em;">
+          FlexiStyle Bootstrap: Modern Vanilla Sub-Theme
+        </h1>
+        <p style="color: var(--mut); font-size: 1.15rem; line-height: 1.6; max-width: 72ch;">
+          Delivering a production-grade Bootstrap 5 integration with Drupal Layout Builder and Views without loading
+          jQuery or legacy asset bridges.
+        </p>
+      </header>
+
+      <div class="stats" style="margin-bottom: 40px;">
+        <div class="stat"><b>0%</b><span>jQuery Usage</span></div>
+        <div class="stat"><b>BS 5.3</b><span>Latest Specs</span></div>
+        <div class="stat"><b>99</b><span>Mobile CWV</span></div>
+        <div class="stat"><b>100%</b><span>Layout Builder Ready</span></div>
+      </div>
+
+      <section class="box" style="padding: 32px; margin-bottom: 28px;">
+        <h2 style="font-size: 1.5rem; margin-top: 0;">The Problem</h2>
+        <p style="color: var(--mut); line-height: 1.7;">
+          Existing community Bootstrap themes relied heavily on outdated jQuery dependencies, monolithic CSS files, and
+          deeply convoluted theme-settings hooks that caused significant layout delays and poor Mobile PageSpeed scores.
+        </p>
+      </section>
+
+      <section class="box" style="padding: 32px; margin-bottom: 28px;">
+        <h2 style="font-size: 1.5rem; margin-top: 0;">Implementation Highlights</h2>
+        <ul style="color: var(--mut); line-height: 1.8; padding-left: 20px;">
+          <li><strong>Vanilla JavaScript Component Hookups:</strong> Integrated native Bootstrap 5 interactive
+            components (Dropdowns, Offcanvas, Modals) using pure ES6 modules.</li>
+          <li><strong>Drupal Layout Builder First:</strong> Engineered 12-column flexbox and CSS grid layouts tailored
+            specifically for Drupal's site builder ecosystem.</li>
+          <li><strong>Configurable Live Theme Settings:</strong> Added theme settings allowing admins to toggle
+            navigation styles, container widths, and color themes directly from the Drupal admin UI.</li>
+        </ul>
+      </section>
+
+      <section class="box" style="padding: 32px; margin-bottom: 28px;">
+        <h2 style="font-size: 1.5rem; margin-top: 0;">Tech Stack & Links</h2>
+        <div class="chips" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Bootstrap
+            5</span>
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Drupal
+            10 & 11</span>
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Vanilla
+            JS</span>
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Responsive
+            UX</span>
+        </div>
+        <a class="btn p" href="https://www.drupal.org/project/flexistyle_bootstrap" target="_blank" rel="noopener">View
+          on Drupal.org &rarr;</a>
+      </section>
+    </main>
+
+    <load src="/src/partials/footer.html" />
+    <script type="module" src="/src/main.js"></script>
+  </body>
+
+</html>

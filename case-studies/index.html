@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Case Studies & Architectural Deep-Dives — Anoop Singh</title>
+    <meta name="description"
+      content="Comprehensive engineering case studies covering decoupled Drupal transformations, modular SCSS pipelines, SaaS architectures, and performance tuning." />
+    <load src="/src/partials/head.html" />
+  </head>
+
+  <body class="pg-case-studies">
+    <a class="skip-link" href="#case-studies-main">Skip to main content</a>
+    <load src="/src/partials/header.html" />
+
+    <main id="case-studies-main"
+      style="max-width: 1200px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
+      <!-- Hero / Header Section -->
+      <header class="prod-hero-header rv in" style="margin-bottom: 2.5rem;">
+        <h1 class="mh">
+          Case <span>Studies.</span>
+        </h1>
+        <p class="lead" style="max-width: 72ch; color: var(--mut); font-size: 1.12rem; line-height: 1.65;">
+          Technical breakdowns of enterprise CMS implementations, theme design systems, decoupled Next.js architectures,
+          and scalable web engineering.
+        </p>
+      </header>
+
+      <!-- Key Metrics Overview Strip -->
+      <div class="stats rv in" style="margin-bottom: 40px;">
+        <div class="stat"><b>6</b><span>Documented Studies</span></div>
+        <div class="stat"><b>99+</b><span>Avg Lighthouse Score</span></div>
+        <div class="stat"><b>100%</b><span>WCAG Accessibility</span></div>
+        <div class="stat"><b>D7–11</b><span>Core Evolution</span></div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="xf rv in" id="cs-filters" style="margin-bottom: 28px;">
+        <button type="button" data-filter="all" aria-pressed="true">All Case Studies (6)</button>
+        <button type="button" data-filter="open-source" aria-pressed="false">Themes &amp; Frameworks</button>
+        <button type="button" data-filter="headless" aria-pressed="false">Headless &amp; DXP</button>
+        <button type="button" data-filter="saas" aria-pressed="false">SaaS Platforms</button>
+      </div>
+
+      <!-- Case Studies Grid Container -->
+      <div id="case-studies-grid" class="kit"
+        style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 540px), 1fr)); gap: 26px;">
+        <!-- Injected via src/main.js -->
+      </div>
+    </main>
+
+    <load src="/src/partials/footer.html" />
+    <script type="module" src="/src/main.js"></script>
+  </body>
+
+</html>

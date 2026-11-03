@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Case Study: FlexiStyle Base Theme Architecture — Anoop Singh</title>
+    <meta name="description"
+      content="Technical breakdown of designing an unopinionated, lightweight, CSS variable-first base theme for Drupal 9, 10, and 11." />
+    <load src="/src/partials/head.html" />
+  </head>
+
+  <body class="pg-case-study-detail">
+    <a class="skip-link" href="#main-study">Skip to main content</a>
+    <load src="/src/partials/header.html" />
+
+    <main id="main-study"
+      style="max-width: 1100px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
+
+      <header style="margin-bottom: 3rem;">
+        <h1
+          style="font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.15; margin: 0.4em 0 0.3em; letter-spacing: -0.03em;">
+          FlexiStyle: Unopinionated Modern CSS Base Theme
+        </h1>
+        <p style="color: var(--mut); font-size: 1.15rem; line-height: 1.6; max-width: 72ch;">
+          How building a lightweight, zero-dependency foundation for Drupal 9, 10, and 11 slashed theme asset bloat by
+          over 60% while maintaining WCAG 2.1 AA compliance out of the box.
+        </p>
+      </header>
+
+      <div class="stats" style="margin-bottom: 40px;">
+        <div class="stat"><b>100</b><span>PageSpeed Score</span></div>
+        <div class="stat"><b>&lt;14KB</b><span>CSS Footprint</span></div>
+        <div class="stat"><b>0%</b><span>JS Bloat</span></div>
+        <div class="stat"><b>D9-11</b><span>Core Compatibility</span></div>
+      </div>
+
+      <section class="box" style="padding: 32px; margin-bottom: 28px;">
+        <h2 style="font-size: 1.5rem; margin-top: 0;">The Challenge</h2>
+        <p style="color: var(--mut); line-height: 1.7;">
+          Traditional Drupal core starter themes (such as Olivero or Classy) inject substantial opinionated CSS and
+          JavaScript. Developers building custom digital products frequently spent days resetting default styles,
+          stripping unwanted layout constraints, and dealing with conflicting utility classes.
+        </p>
+      </section>
+
+      <section class="box" style="padding: 32px; margin-bottom: 28px;">
+        <h2 style="font-size: 1.5rem; margin-top: 0;">Architectural Solution</h2>
+        <ul style="color: var(--mut); line-height: 1.8; padding-left: 20px;">
+          <li><strong>CSS Custom Property Engine:</strong> Defined design tokens (colors, spacing, typography scales)
+            directly in CSS variables to allow seamless dark/light mode toggling without compiling tools.</li>
+          <li><strong>Zero JS Overhead:</strong> Eliminated all JavaScript runtime dependencies in the base layer,
+            ensuring fast First Contentful Paint (FCP).</li>
+          <li><strong>Clean Twig Templates:</strong> Refactored core Drupal markup into minimal, semantic HTML elements,
+            optimizing accessibility and screen reader navigation.</li>
+        </ul>
+      </section>
+
+      <section class="box" style="padding: 32px; margin-bottom: 28px;">
+        <h2 style="font-size: 1.5rem; margin-top: 0;">Tech Stack & Community Link</h2>
+        <div class="chips" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Drupal
+            9 / 10 / 11</span>
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Twig
+            3</span>
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">CSS
+            Variables</span>
+          <span
+            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">WCAG
+            2.1 AA</span>
+        </div>
+        <a class="btn p" href="https://www.drupal.org/project/flexi_style" target="_blank" rel="noopener">View on
+          Drupal.org &rarr;</a>
+      </section>
+    </main>
+
+    <load src="/src/partials/footer.html" />
+    <script type="module" src="/src/main.js"></script>
+  </body>
+
+</html>

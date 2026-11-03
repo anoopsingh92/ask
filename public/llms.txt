@@ -8,7 +8,7 @@
 
 ## Key Links
 - [Portfolio Homepage](https://anoopsingh92.github.io/ask/)
-- [Architectural Case Study](https://anoopsingh92.github.io/ask/case-study.html)
+- [Architectural Case Studies](https://anoopsingh92.github.io/ask/case-studies/)
 - [Full Career Story & Certifications](https://anoopsingh92.github.io/ask/about/)
 - [Drupal Themes & Digital Products](https://anoopsingh92.github.io/ask/products/)
 - [Download Resume (PDF)](https://anoopsingh92.github.io/ask/assets/Anoop-Singh-Resume.pdf)
