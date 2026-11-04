@@ -4,13 +4,6 @@
  * @format
  */
 
-.pg-product-detail main {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: calc(110px + env(safe-area-inset-top, 0px)) 0 80px;
-	min-height: 85vh;
-}
-
 /* Page & Section Headers */
 .pdetail-header .mh {
 	margin: 0.15em 0 0.25em;
@@ -71,20 +64,6 @@
 	border-color: color-mix(in srgb, #f59e0b 35%, transparent);
 }
 
-/* Detail 2-Column Split */
-.pdetail {
-	display: grid;
-	grid-template-columns: minmax(0, 1.35fr) minmax(360px, 420px);
-	gap: 20px;
-	align-items: start;
-}
-
-@media (max-width: 960px) {
-	.pdetail {
-		grid-template-columns: 1fr;
-	}
-}
-
 /* Detail Cards & Sections */
 .pdetail-box {
 	margin-bottom: 20px;
@@ -142,11 +121,6 @@
 }
 
 /* Sidebar Specific Styles */
-.pdetail-sidebar {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-}
 .sidebar-tag {
 	margin-bottom: 8px;
 	display: inline-flex;

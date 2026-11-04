@@ -7,6 +7,22 @@
     <title>Case Study: Modular SCSS Architecture for Drupal — Anoop Singh</title>
     <meta name="description"
       content="Technical pipeline design for SCSS token overrides, Vite bundler integration, and zero-runtime-cost CSS." />
+    <link rel="canonical" href="https://anoopsingh92.github.io/ask/case-studies/flexistyle-bootstrap-scss/">
+
+    <!-- Open Graph / Social Sharing Meta Tags -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Anoop Singh">
+    <meta property="og:title" content="Case Study: Modular SCSS Architecture for Drupal — Anoop Singh">
+    <meta property="og:description" content="Technical pipeline design for SCSS token overrides, Vite bundler integration, and zero-runtime-cost CSS.">
+    <meta property="og:url" content="https://anoopsingh92.github.io/ask/case-studies/flexistyle-bootstrap-scss/">
+    <meta property="og:image" content="https://anoopsingh92.github.io/ask/assets/img/screenshot-wide.png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta property="og:image:alt" content="Case Study: Modular SCSS Architecture for Drupal — Anoop Singh">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+
     <load src="/src/partials/head.html" />
   </head>
 
@@ -14,30 +30,30 @@
     <a class="skip-link" href="#main-study">Skip to main content</a>
     <load src="/src/partials/header.html" />
 
-    <main id="main-study"
-      style="max-width: 1100px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
+    <main id="main-study" class="detail-main">
+      <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="../../">Home</a><i>/</i><a href="../">Case Studies</a><i>/</i><span aria-current="page">FlexiStyle Bootstrap SCSS</span></div>
 
-      <header style="margin-bottom: 3rem;">
-        <h1
-          style="font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.15; margin: 0.4em 0 0.3em; letter-spacing: -0.03em;">
+      <header class="detail-hero">
+        <div class="detail-meta"><span class="detail-badge">Case Study</span><span class="detail-badge is-plain">DevOps · Asset Pipeline</span><span class="detail-badge is-plain">Enterprise Theming</span></div>
+        <h1 class="detail-h1">
           Automated SCSS & Vite Workflow for Enterprise Theming
         </h1>
-        <p style="color: var(--mut); font-size: 1.15rem; line-height: 1.6; max-width: 72ch;">
+        <p class="detail-lead">
           Structuring a modular tokenized architecture with modern build tooling, cutting stylesheet compilation times
           to 180ms and reducing production bundle weights by 42%.
         </p>
       </header>
 
-      <div class="stats" style="margin-bottom: 40px;">
+      <div class="detail-stats">
         <div class="stat"><b>-42%</b><span>CSS Bundle Size</span></div>
         <div class="stat"><b>180ms</b><span>Fast Compile</span></div>
         <div class="stat"><b>Tokens</b><span>Modular Design</span></div>
         <div class="stat"><b>HMR</b><span>Instant Dev Reload</span></div>
       </div>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Engineering Strategy</h2>
-        <ul style="color: var(--mut); line-height: 1.8; padding-left: 20px;">
+      <section class="box detail-section">
+        <h2 class="detail-h2">Engineering Strategy</h2>
+        <ul class="detail-list">
           <li><strong>Directory-Driven Modular SASS:</strong> Structured styles into <code>abstracts/</code>,
             <code>components/</code>, and <code>layout/</code>, isolating components to eliminate CSS specificity wars.
           </li>
@@ -48,23 +64,31 @@
         </ul>
       </section>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Stack Details</h2>
-        <div class="chips" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">SASS
+      <section class="box detail-section">
+        <h2 class="detail-h2">Stack Details</h2>
+        <div class="detail-chips">
+          <span class="detail-chip">SASS
             / SCSS</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Vite</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">PostCSS</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Drupal
+          <span class="detail-chip">Vite</span>
+          <span class="detail-chip">PostCSS</span>
+          <span class="detail-chip">Drupal
             10/11</span>
         </div>
         <a class="btn p" href="https://www.drupal.org/project/flexistyle_bootstrap_scss" target="_blank"
           rel="noopener">Explore Repository &rarr;</a>
       </section>
+      <aside class="box detail-cta">
+        <div>
+          <h2>See the product behind this case study</h2>
+          <p>FlexiStyle Bootstrap SCSS: features, installation steps and downloads.</p>
+        </div>
+        <a class="btn p" href="../../products/flexistyle-bootstrap-scss/">View FlexiStyle Bootstrap SCSS &rarr;</a>
+      </aside>
+
+      <div class="detail-nav" role="navigation" aria-label="More case studies">
+        <a class="detail-nav-link" rel="prev" href="../flexistyle-bootstrap/"><span>&larr; Previous</span><b>FlexiStyle Bootstrap: Modern Vanilla Sub-Theme Framework</b></a>
+        <a class="detail-nav-link detail-nav-next" rel="next" href="../flexistyle-dxp/"><span>Next &rarr;</span><b>Enterprise Headless Drupal DXP Transformation</b></a>
+      </div>
     </main>
 
     <load src="/src/partials/footer.html" />

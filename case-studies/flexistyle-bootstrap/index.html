@@ -7,6 +7,22 @@
     <title>Case Study: FlexiStyle Bootstrap Sub-Theme — Anoop Singh</title>
     <meta name="description"
       content="Integrating modern Bootstrap 5 into Drupal without jQuery dependencies, built on FlexiStyle." />
+    <link rel="canonical" href="https://anoopsingh92.github.io/ask/case-studies/flexistyle-bootstrap/">
+
+    <!-- Open Graph / Social Sharing Meta Tags -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Anoop Singh">
+    <meta property="og:title" content="Case Study: FlexiStyle Bootstrap Sub-Theme — Anoop Singh">
+    <meta property="og:description" content="Integrating modern Bootstrap 5 into Drupal without jQuery dependencies, built on FlexiStyle.">
+    <meta property="og:url" content="https://anoopsingh92.github.io/ask/case-studies/flexistyle-bootstrap/">
+    <meta property="og:image" content="https://anoopsingh92.github.io/ask/assets/img/screenshot-wide.png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta property="og:image:alt" content="Case Study: FlexiStyle Bootstrap Sub-Theme — Anoop Singh">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+
     <load src="/src/partials/head.html" />
   </head>
 
@@ -14,38 +30,38 @@
     <a class="skip-link" href="#main-study">Skip to main content</a>
     <load src="/src/partials/header.html" />
 
-    <main id="main-study"
-      style="max-width: 1100px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
+    <main id="main-study" class="detail-main">
+      <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="../../">Home</a><i>/</i><a href="../">Case Studies</a><i>/</i><span aria-current="page">FlexiStyle Bootstrap</span></div>
 
-      <header style="margin-bottom: 3rem;">
-        <h1
-          style="font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.15; margin: 0.4em 0 0.3em; letter-spacing: -0.03em;">
+      <header class="detail-hero">
+        <div class="detail-meta"><span class="detail-badge">Case Study</span><span class="detail-badge is-plain">Theme Engineering · UI Systems</span><span class="detail-badge is-plain">Drupal Community</span></div>
+        <h1 class="detail-h1">
           FlexiStyle Bootstrap: Modern Vanilla Sub-Theme
         </h1>
-        <p style="color: var(--mut); font-size: 1.15rem; line-height: 1.6; max-width: 72ch;">
+        <p class="detail-lead">
           Delivering a production-grade Bootstrap 5 integration with Drupal Layout Builder and Views without loading
           jQuery or legacy asset bridges.
         </p>
       </header>
 
-      <div class="stats" style="margin-bottom: 40px;">
+      <div class="detail-stats">
         <div class="stat"><b>0%</b><span>jQuery Usage</span></div>
         <div class="stat"><b>BS 5.3</b><span>Latest Specs</span></div>
         <div class="stat"><b>99</b><span>Mobile CWV</span></div>
         <div class="stat"><b>100%</b><span>Layout Builder Ready</span></div>
       </div>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">The Problem</h2>
-        <p style="color: var(--mut); line-height: 1.7;">
+      <section class="box detail-section">
+        <h2 class="detail-h2">The Problem</h2>
+        <p class="detail-text">
           Existing community Bootstrap themes relied heavily on outdated jQuery dependencies, monolithic CSS files, and
           deeply convoluted theme-settings hooks that caused significant layout delays and poor Mobile PageSpeed scores.
         </p>
       </section>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Implementation Highlights</h2>
-        <ul style="color: var(--mut); line-height: 1.8; padding-left: 20px;">
+      <section class="box detail-section">
+        <h2 class="detail-h2">Implementation Highlights</h2>
+        <ul class="detail-list">
           <li><strong>Vanilla JavaScript Component Hookups:</strong> Integrated native Bootstrap 5 interactive
             components (Dropdowns, Offcanvas, Modals) using pure ES6 modules.</li>
           <li><strong>Drupal Layout Builder First:</strong> Engineered 12-column flexbox and CSS grid layouts tailored
@@ -55,25 +71,33 @@
         </ul>
       </section>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Tech Stack & Links</h2>
-        <div class="chips" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Bootstrap
+      <section class="box detail-section">
+        <h2 class="detail-h2">Tech Stack & Links</h2>
+        <div class="detail-chips">
+          <span class="detail-chip">Bootstrap
             5</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Drupal
+          <span class="detail-chip">Drupal
             10 & 11</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Vanilla
+          <span class="detail-chip">Vanilla
             JS</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Responsive
+          <span class="detail-chip">Responsive
             UX</span>
         </div>
         <a class="btn p" href="https://www.drupal.org/project/flexistyle_bootstrap" target="_blank" rel="noopener">View
           on Drupal.org &rarr;</a>
       </section>
+      <aside class="box detail-cta">
+        <div>
+          <h2>See the product behind this case study</h2>
+          <p>FlexiStyle Bootstrap: features, installation steps and downloads.</p>
+        </div>
+        <a class="btn p" href="../../products/flexistyle-bootstrap/">View FlexiStyle Bootstrap &rarr;</a>
+      </aside>
+
+      <div class="detail-nav" role="navigation" aria-label="More case studies">
+        <a class="detail-nav-link" rel="prev" href="../flexi-style/"><span>&larr; Previous</span><b>FlexiStyle: Pure CSS Variable Base Theme for Drupal 9–11</b></a>
+        <a class="detail-nav-link detail-nav-next" rel="next" href="../flexistyle-bootstrap-scss/"><span>Next &rarr;</span><b>FlexiStyle Bootstrap SCSS: Enterprise Build & Token Pipeline</b></a>
+      </div>
     </main>
 
     <load src="/src/partials/footer.html" />

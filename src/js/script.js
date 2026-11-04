@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', normalizeNavLinks);
 const $ = s => document.querySelector(s),
   $$ = s => [...document.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const idle = fn => ('requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300));
 if (location.hash === '#me') location.replace(getAppRoot() + 'about/');
 
 /* ===================================================
@@ -141,11 +142,6 @@ window.addEventListener(
 /* ===================================================
    HERO ANIMATIONS & LETTER REVEALS
 =================================================== */
-$$('h1 .ln').forEach((l, r) => {
-  l.innerHTML = [...l.dataset.s]
-    .map((c, i) => `<span class="ch" style="--i:${i + r * 5}">${c}</span>`)
-    .join('');
-});
 
 /* Typewriter */
 const words = [
@@ -155,7 +151,7 @@ const words = [
   'fast responsive sites'
 ];
 let wi = 0,
-  ci = 0,
+  ci = words[0].length,
   del = false;
 const w = $('#word');
 (function type() {
@@ -211,6 +207,7 @@ const currentSection = () => {
 
 const PAGE_LINK_ATTR = { about: 'data-page', products: 'data-products', 'case-studies': 'data-studies' };
 
+let navTick = 0;
 function updateActiveNav() {
   const section = currentSection();
 
@@ -257,7 +254,12 @@ window.addEventListener(
     const bar = $('#bar');
     const max = Math.max(1, h.scrollHeight - h.clientHeight);
     if (bar) bar.style.width = (h.scrollTop / max) * 100 + '%';
-    updateActiveNav();
+    if (!navTick) {
+      navTick = requestAnimationFrame(() => {
+        navTick = 0;
+        updateActiveNav();
+      });
+    }
   },
   { passive: true }
 );
@@ -269,18 +271,41 @@ window.addEventListener('hashchange', updateActiveNav);
 window.addEventListener('pageshow', updateActiveNav);
 // src/assets/js/main.js
 
-// Ensure html.is-ready is added immediately to prevent white screens
-function revealPage() {
-  document.documentElement.classList.add('is-ready');
-}
+// The page is visible from the first paint; is-ready stays as a hook for styles.
+document.documentElement.classList.add('is-ready');
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', revealPage);
-} else {
-  revealPage();
-}
-window.addEventListener('load', revealPage);
 
+/* Marquees: HTML holds one set of words; repeat it so the CSS loop is seamless */
+[['.mq > div', 2], ['.ft > div', 4]].forEach(([sel, times]) => {
+  const el = document.querySelector(sel);
+  if (el) el.innerHTML = el.innerHTML.repeat(times);
+});
+
+/* Mobile menu */
+(function initMenu() {
+  const btn = document.getElementById('menu');
+  const navEl = btn && btn.closest('nav');
+  if (!btn || !navEl) return;
+  const setOpen = open => {
+    navEl.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  btn.addEventListener('click', () => setOpen(!navEl.classList.contains('is-open')));
+  navEl.addEventListener('click', e => {
+    if (e.target.closest('#nav-links a')) setOpen(false);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navEl.classList.contains('is-open')) {
+      setOpen(false);
+      btn.focus();
+    }
+  });
+  document.addEventListener('click', e => {
+    if (navEl.classList.contains('is-open') && !navEl.contains(e.target)) setOpen(false);
+  });
+  window.matchMedia('(min-width: 1101px)').addEventListener('change', e => e.matches && setOpen(false));
+})();
 
 /* Theme Toggle */
 const themeBtn = document.querySelector('#theme'); // or $('#theme')
@@ -297,15 +322,19 @@ if (themeBtn) {
   });
 }
 
-/* Background Canvas Particles */
+/* Background Canvas Particles (renders only while the pointer is moving) */
 const cv = $('#bg');
 if (cv) {
   const x = cv.getContext('2d');
   let W,
     H,
     pts = [],
-    m = { x: -999, y: -999 };
+    m = { x: -999, y: -999 },
+    col = '',
+    raf = 0,
+    lastMove = 0;
   const gl = $('#glow');
+  const readColor = () => (col = getComputedStyle(document.documentElement).getPropertyValue('--ac').trim());
   function size() {
     W = cv.width = window.innerWidth;
     H = cv.height = window.innerHeight;
@@ -316,25 +345,14 @@ if (cv) {
         pts.push({ ox: i, oy: j, x: i, y: j });
       }
     }
+    readColor();
+    if (!raf) draw();
   }
-  size();
-  window.addEventListener('resize', size);
-  window.addEventListener(
-    'pointermove',
-    e => {
-      m.x = e.clientX;
-      m.y = e.clientY;
-      if (gl) {
-        gl.style.left = m.x + 'px';
-        gl.style.top = m.y + 'px';
-      }
-    },
-    { passive: true }
-  );
   function draw() {
+    raf = 0;
     x.clearRect(0, 0, W, H);
-    const col = getComputedStyle(document.documentElement).getPropertyValue('--ac').trim();
     x.fillStyle = col;
+    let moving = false;
     for (const p of pts) {
       const dx = p.x - m.x,
         dy = p.y - m.y,
@@ -347,6 +365,7 @@ if (cv) {
       }
       p.x += (p.ox - p.x) * 0.08;
       p.y += (p.oy - p.y) * 0.08;
+      if (Math.abs(p.x - p.ox) > 0.05 || Math.abs(p.y - p.oy) > 0.05) moving = true;
       const s = d < R ? 2.6 : 1.2;
       x.globalAlpha = d < R ? 0.9 : 0.28;
       x.beginPath();
@@ -354,15 +373,32 @@ if (cv) {
       x.fill();
     }
     x.globalAlpha = 1;
-    requestAnimationFrame(draw);
+    // keep animating only while points are settling or the pointer was recently active
+    if (!reduce && !document.hidden && (moving || performance.now() - lastMove < 1500)) {
+      raf = requestAnimationFrame(draw);
+    }
   }
-  reduce
-    ? (() => {
-      x.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--ac').trim();
-      x.globalAlpha = 0.25;
-      pts.forEach(p => x.fillRect(p.x, p.y, 2, 2));
-    })()
-    : draw();
+  idle(size);
+  window.addEventListener('resize', size);
+  window.addEventListener(
+    'pointermove',
+    e => {
+      m.x = e.clientX;
+      m.y = e.clientY;
+      lastMove = performance.now();
+      if (gl) {
+        gl.style.left = m.x + 'px';
+        gl.style.top = m.y + 'px';
+      }
+      if (!raf && pts.length && !reduce) raf = requestAnimationFrame(draw);
+    },
+    { passive: true }
+  );
+  // repaint with the new accent colour when the theme flips
+  new MutationObserver(() => {
+    readColor();
+    if (!raf) raf = requestAnimationFrame(draw);
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 }
 
 /* ===================================================
@@ -566,6 +602,36 @@ const EARLIER_PROJECTS = [
 })();
 
 /* ===================================================
+   GSAP ON DEMAND (only pages with pinned sections load it)
+=================================================== */
+const needsGsap = !!document.querySelector('.about-pinned-section, #work.work-pinned-section');
+const loadScript = src =>
+  new Promise((resolve, reject) => {
+    const el = document.createElement('script');
+    el.src = src;
+    el.async = false;
+    el.onload = resolve;
+    el.onerror = reject;
+    document.head.appendChild(el);
+  });
+let gsapPromise = null;
+function ensureGsap() {
+  if (!needsGsap) return Promise.resolve(false);
+  if (!gsapPromise) {
+    gsapPromise = new Promise(resolve => {
+      const start = () =>
+        loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js')
+          .then(() => loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js'))
+          .then(() => resolve(true))
+          .catch(() => resolve(false));
+      document.readyState === 'complete' ? idle(start) : window.addEventListener('load', () => idle(start), { once: true });
+    });
+  }
+  return gsapPromise;
+}
+ensureGsap();
+
+/* ===================================================
    PINNED SCROLLTRIGGER: ABOUT SECTION
 =================================================== */
 function initAboutPinnedScroll() {
@@ -699,13 +765,11 @@ function initPinnedScroll() {
   }
 }
 
-window.addEventListener('load', () => {
+ensureGsap().then(ready => {
+  if (!ready) return;
   initAboutPinnedScroll();
   initPinnedScroll();
-  revealPage();
-  setTimeout(() => {
-    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-  }, 400);
+  setTimeout(() => ScrollTrigger.refresh(), 400);
 });
 
 window.addEventListener('resize', () => {
@@ -1000,9 +1064,11 @@ function setView(isMe, targetHash = '') {
     requestAnimationFrame(() => pinRenderers.forEach(fn => fn()));
   } else {
     requestAnimationFrame(() => {
-      initAboutPinnedScroll();
-      initPinnedScroll();
-      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+      if (typeof ScrollTrigger !== 'undefined') {
+        initAboutPinnedScroll();
+        initPinnedScroll();
+        ScrollTrigger.refresh();
+      }
       if (targetHash && targetHash !== '#top') {
         const t = $(targetHash);
         if (t) goTo(t.getBoundingClientRect().top + window.scrollY - 70);

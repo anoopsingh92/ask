@@ -4,7 +4,7 @@
   <div id="glow"></div><canvas id="bg"></canvas>
   <nav role="navigation">
     <a class="logo" data-home href="./">&lt;anoop<b>/</b>&gt;</a>
-    <ul>
+    <ul id="nav-links">
       <li><a data-nav href="#about">me</a></li>
       <li><a data-page href="about/">about me</a></li>
       <li><a data-products href="products/">my products</a></li>
@@ -12,6 +12,8 @@
       <li><a data-nav href="#skillset">skillset</a></li>
       <li><a data-nav href="#praise">recommendations</a></li>
       <li><a data-nav href="#contact">contact</a></li>
+      <li class="nav-cta"><a class="nbtn" data-asset="Anoop-Singh-Resume.pdf" href="assets/Anoop-Singh-Resume.pdf"
+          download="Anoop-Singh-Resume.pdf">Download Resume ↓</a></li>
     </ul>
     <span class="nr">
       <a class="nbtn" data-asset="Anoop-Singh-Resume.pdf" href="assets/Anoop-Singh-Resume.pdf"
@@ -19,6 +21,9 @@
         Download Resume ↓
       </a>
       <button id="theme" aria-label="Toggle theme">◐</button>
+      <button class="nmenu" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
     </span>
   </nav>
 </header>

@@ -1,214 +1,148 @@
 # Architecture & Technical Design Specification
-**Project:** Portfolio & Career Showcase (`anoopsingh92.github.io/ask/`)  
-**Engineer:** Anoop Singh — Senior Software Engineer  
-**Core Stack:** Vanilla ESNext, Modern CSS3, Vite 8, GSAP, Lenis, GitHub Pages  
-**Document Version:** 1.0.0  
+**Project:** Portfolio, Product Catalogue & Case Studies (`anoopsingh92.github.io/ask/`)  
+**Engineer:** Anoop Singh, Senior Software Engineer  
+**Core Stack:** Vanilla ESNext, modern CSS3, Vite 8 (multi-page), GSAP ScrollTrigger (on demand), GitHub Pages  
+**Document Version:** 2.0.0 (November 2026)
 
 ---
 
-## 1. System Overview & Vision
+## 1. System Overview
 
-The objective of this architecture is to deliver a zero-dependency runtime portfolio that balances high visual fidelity with optimal performance. The architecture migrates away from unbundled legacy static scripts to an automated **Static Multi-Page Application (MPA)** compiled via **Vite**.
+A static multi-page site that pairs high visual fidelity with a minimal runtime. Every route is a real HTML file, shared chrome (head, header, footer) is injected at build time, and client JavaScript only adds behaviour on top of content that is already readable.
 
-### Core Tenets
-1. **Zero Client-Side Layout Thrashing (FOUC Elimination):** Instant styled paint with zero-DOM flash on hard refresh.
-2. **Deterministic Bundle Delivery:** Singular, tree-shaken, and minified production bundles (`bundle.min.css` and `bundle.min.js`).
-3. **Clean-Path Directory Routing:** Complete removal of `.html` extensions across local preview and production deployments (`/about/` instead of `/about.html`).
-4. **Environment-Agnostic Portability:** Dynamic resolution of base paths allowing immediate transition between subdirectory deployment (`/ask/`) and apex/root domain hosting.
-
----
-
-## 2. Architecture & Deployment Topology
-
-```
-                       ┌─────────────────────────┐
-                       │   Local / Remote Git    │
-                       │   (Source Code / src/)  │
-                       └────────────┬────────────┘
-                                    │
-                            git push to main
-                                    ▼
-                       ┌─────────────────────────┐
-                       │      GitHub Actions     │
-                       │    (.github/workflows)  │
-                       └────────────┬────────────┘
-                                    │
-                     Vite Build Engine (Rolldown)
-                     ├── vite-plugin-html-inject
-                     ├── PostCSS & CSS Aggregation
-                     └── Public Assets Pass-through
-                                    ▼
-                       ┌─────────────────────────┐
-                       │   Static Output (/dist) │
-                       │ ├── index.html          │
-                       │ ├── about/index.html    │
-                       │ ├── 404.html            │
-                       │ ├── assets/             │
-                       │ └── static manifests    │
-                       └────────────┬────────────┘
-                                    │
-                               Deploy to
-                                    ▼
-        ┌─────────────────────────────────────────────────────────┐
-        │                 GitHub Pages Static CDN                 │
-        │             anoopsingh92.github.io/ask/                 │
-        └───────────────────────────┬─────────────────────────────┘
-                                    │ HTTP/2 Cache-Control
-                                    ▼
-        ┌─────────────────────────────────────────────────────────┐
-        │                     Client Browser                      │
-        │                                                         │
-        │  ┌────────────────────┐      ┌───────────────────────┐  │
-        │  │   Service Worker   │      │    Lenis Smooth       │  │
-        │  │  (Offline Cache)   │      │       Scroller        │  │
-        │  └─────────┬──────────┘      └──────────┬────────────┘  │
-        │            │                            │               │
-        │            ▼                            ▼               │
-        │  ┌────────────────────┐      ┌───────────────────────┐  │
-        │  │ DOM & Critical CSS │      │  GSAP ScrollTrigger & │  │
-        │  │      Painting      │      │    Canvas Particles   │  │
-        │  └────────────────────┘      └───────────────────────┘  │
-        └─────────────────────────────────────────────────────────┘
-```
+### Core tenets
+1. **Content first paint:** nothing is hidden behind JavaScript. Theme is resolved by a tiny inline script before first paint; hero text, navigation and cards exist in the HTML.
+2. **Deterministic delivery:** one CSS bundle (`assets/bundle.min.css`) and fixed-name JS entries (`assets/[name].min.js`).
+3. **Clean-path routing:** folders with `index.html` (`/about/`, `/products/flexi-style/`), no `.html` in public URLs.
+4. **Environment-agnostic base path:** `BASE_PATH` selects `/ask/` (GitHub Pages) or `/` (custom domain); runtime code resolves the root with `getAppRoot()`.
+5. **One design system, two shells:** listing pages share `listing.css`; detail pages share `detail.css`.
 
 ---
 
-## 3. Structural Design Patterns
+## 2. Deployment topology
 
-### 3.1 Compile-Time HTML Component Injection Pattern
-Instead of bringing in bloated client-side templating libraries or runtime JSX interpreters, the system leverages `vite-plugin-html-inject`.
+```
+git push (main | master | development)
+        |
+        v
+GitHub Actions  (.github/workflows/build-minify.yml)
+  - Node 22, npm ci (falls back to npm install)
+  - BASE_PATH=/ask/ npm run build   (Vite + vite-plugin-html-inject)
+  - upload-pages-artifact (dist/)
+        |
+        v
+actions/deploy-pages  ->  https://anoopsingh92.github.io/ask/
+```
 
-* **Partials Separation:** Navigation (`src/partials/header.html`) and footer elements (`src/partials/footer.html`) are isolated into reusable source fragments.
-* **Build-Time Composition:** During the Vite build phase, these partials are inlined directly into `index.html`, `about/index.html`, and `404.html`.
-* **Zero Overhead:** The browser receives pre-stitched, semantic HTML with zero JavaScript parsing required for initial DOM construction.
-
-### 3.2 Subdirectory Native Directory Routing Pattern
-To enforce search engine optimization (SEO) standards and user-friendly URLs without requiring an active server rewriting engine (such as Nginx or Apache):
-
-* Pages are organized structurally into physical folder hierarchies (`about/index.html`).
-* GitHub Pages' internal routing table maps requests targeting `/ask/about/` directly to `dist/about/index.html`.
-* Anchors within pages dynamically adjust relative references depending on directory depth, preventing broken cross-page jumps.
-
-### 3.3 Dynamic Base URL Normalization Pattern
-To prevent vendor lock-in to the `/ask/` subdirectory:
-* `vite.config.js` extracts `process.env.BASE_PATH` dynamically.
-* Runtime JavaScript uses browser URL resolution (`new URL(target, window.location.href)`) combined with `import.meta.env.BASE_URL` to evaluate root and anchor targets dynamically.
+`dist/` contains 17 HTML entries (home, about, 404, 2 listings, 5 products, 6 case studies), the hashed-free bundle files and everything from `public/`.
 
 ---
 
-## 4. Client Runtime Software Design Patterns
+## 3. Structural patterns
 
-### 4.1 Encapsulated Module / Controller Pattern
-Client execution is divided into distinct functional singletons within `src/js/main.js`:
+### 3.1 Build-time component injection
+`vite-plugin-html-inject` replaces `<load src="/src/partials/*.html" />` with the partial markup: `head.html` (icons, manifest, fonts, theme script, JSON-LD), `header.html` (navigation, theme toggle, mobile menu button) and `footer.html`.
 
-1. **Theme Manager:** Manages light/dark mode switches, syncs with `localStorage`, and handles OS-level `prefers-color-scheme` media queries.
-2. **Canvas Particle System:** Manages a high-DPI HTML5 2D canvas that calculates cursor proximity vectors and renders animated nodes with linear interpolation.
-3. **Scroll Coordinator:** Unifies page-level virtual scrolling (Lenis) with frame-by-frame animation triggers (GSAP ScrollTrigger).
+### 3.2 Multi-page entry map
+`vite.config.js` lists every page under `build.rollupOptions.input`. A matching `validPaths` array drives the dev-server 404 middleware, so a new page must be added in both places (and in `sitemap.xml` / `llms.txt`).
 
-### 4.2 Observer & Safe-Selector ScrollSpy Pattern
-The active navigation state reflects current viewport coordinates through an optimized passive scroll listener:
+### 3.3 Base-path normalisation
+- Build: `base` is `process.env.BASE_PATH || './'`.
+- Runtime: `getAppRoot()` (exported from `src/js/script.js`) derives the site root from `location.pathname`. It fixes header links, the `#me` redirect, the active-menu logic and the image URLs rendered by the case-study listing.
 
-```
-[Window Scroll Event] ──► Extract Current Path
-                               │
-               ┌───────────────┴───────────────┐
-               ▼                               ▼
-       Path is '/about/'              Path is Homepage ('/')
-               │                               │
-    Set 'Full Story' Active          Extract Nav Anchor Hashes
-                                               │
-                                     Sanitize & Guard Hash
-                                     (Strip invalid URLs)
-                                               │
-                                     Calculate Viewport Box
-                                     (Element in 45% range?)
-                                               │
-                                     Toggle '.on' Class
-```
+### 3.4 Shared CSS layers
+Imported in this order from `src/main.js` (later layers win):
 
-* **Guard Clause:** Prevents `querySelector` execution on non-selector strings (such as `/about/` or absolute URLs), eliminating DOM exceptions in client logs.
+| File | Responsibility |
+|---|---|
+| `style.css` | Design tokens (`--ac`, `--fg`, `--card`, ...), nav, hero, homepage sections, shared components |
+| `products.css` | Product-detail content blocks (lists, code, sidebar rows, command chip) |
+| `listing.css` | Prefix `ls-`: page shell, hero, tabs, toolbar, **flexbox** grid / list cards, empty state |
+| `detail.css` | Breadcrumb, detail hero, stats, numbered sections, CTA, previous / next, flex product layout |
+| `responsive.css` | Mobile menu, touch targets, safe areas, phone / landscape / 4K adjustments |
 
-### 4.3 Frame-Lock Render Loop Pattern
-To eliminate micro-stutters and screen tearing between Lenis smooth scrolling and GSAP animations:
-
-```javascript
-lenis.on('scroll', ScrollTrigger.update);
-
-gsap.ticker.add((time) => {
-  lenis.raf(time * 1000);
-});
-
-gsap.ticker.lagSmoothing(0);
-```
-
-* Lenis delegates its frame calculation directly to GSAP's global ticker.
-* Scroll offsets and transformation matrices are evaluated in the same frame step, preventing desynchronized scroll positions.
-
-### 4.4 Resilient Offline-First Service Worker Pattern
-The Service Worker (`sw.js`) employs a **Cache-First with Network Fallback** pattern for immutable versioned assets:
-* Pre-caches core application bundles (`bundle.min.css`, `bundle.min.js`), layout templates, and core branding icons on the `install` event.
-* Automatically prunes stale caches during the `activate` lifecycle phase.
-* Intercepts `navigate` requests to provide offline fallback capability.
+Grids on listing pages are flexbox: a `--ls-cols` custom property (3, 2 or 1) sets each card's width as `(100% - gaps) / cols`, and list view sets it to 1.
 
 ---
 
-## 5. File System & Module Layout
+## 4. Client runtime
+
+### 4.1 `src/js/script.js` (all pages)
+- **Theme manager:** toggle persisted in `localStorage`; initial value set inline in `head.html`.
+- **Mobile menu:** `#menu` toggles `nav.is-open`; closes on link click, Escape, outside click and when the viewport grows past 1100px.
+- **Active navigation:** `updateActiveNav()` highlights the current page link from the first URL segment, or runs a scroll-spy on the homepage. It is throttled with `requestAnimationFrame` and also runs on load, `hashchange` and `pageshow`.
+- **Canvas particles:** the grid is drawn once, redrawn while points are settling or the pointer was active in the last 1.5s, paused when the tab is hidden, and recoloured on theme change. Setup is deferred with `requestIdleCallback`.
+- **On-demand GSAP:** pages containing `.about-pinned-section` or `#work.work-pinned-section` load GSAP and ScrollTrigger from jsDelivr after the window `load` event (during idle time). Other pages never request them.
+- **Reveals and counters:** one `IntersectionObserver` adds `.in` to `.rv` elements and animates `[data-n]` counters.
+
+### 4.2 Listings
+- `src/main.js` renders the case-study listing from `case-studies-data.js` (filter pills with counts, search, grid / list toggle, empty state). The first three images load eagerly, the first with `fetchpriority="high"`.
+- `src/products.js` adds the same behaviour to the static product cards and an extra **Free / Premium** tab group (`data-p`). The grid / list choice is shared by both listings through `localStorage["ls-view"]`.
+
+### 4.3 Service worker
+`public/sw.js` implements network-first navigation with an offline fallback and stale-while-revalidate for assets. It is **not registered** by default.
+
+---
+
+## 5. File layout
 
 ```text
 anoopsingh92/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml            # CI/CD deployment pipeline to GitHub Pages
-├── public/                       # Raw assets copied directly to dist/
-│   ├── assets/
-│   │   ├── img/                  # High-density graphics, avatars, screenshots
-│   │   └── Anoop-Singh-Resume.pdf# Downloadable resume asset
-│   ├── _redirects                # Redirect rules for edge hosts (Netlify/Cloudflare)
-│   ├── favicon.ico               # Root browser favicon
-│   ├── llms.txt                  # LLM and AI agent discovery metadata
-│   ├── manifest.json             # PWA web application manifest
-│   ├── robots.txt                # Search engine crawler policies
-│   ├── sitemap.xml               # Canonical XML sitemap index
-│   └── sw.js                     # Progressive Web App service worker
-├── src/                          # Application source code
-│   ├── css/
-│   │   └── style.css             # Main stylesheet (Design tokens, layout, themes)
-│   ├── js/
-│   │   └── main.js               # Core logic, Canvas, Lenis, and GSAP controller
-│   ├── partials/
-│   │   ├── footer.html           # Reusable site footer partial
-│   │   └── header.html           # Reusable site header and navigation partial
-│   └── main.js                   # Master Vite build entry module
-├── about/
-│   └── index.html                # Dedicated Full Story view (/about/)
-├── 404.html                      # Error fallback view
-├── index.html                    # Homepage view
-├── vite.config.js                # Vite compiler build configuration
-├── package.json                  # NPM manifest and project dependencies
-├── LICENSE                       # MIT License declaration
-└── README.md                     # Repository documentation & onboarding guide
+├── .github/workflows/build-minify.yml
+├── index.html  404.html  about/index.html
+├── products/            index.html + 5 product folders
+├── case-studies/        index.html + 6 case-study folders
+├── public/              assets/, favicon.ico, manifest.json, sw.js,
+│                        robots.txt, sitemap.xml, llms.txt, _redirects
+├── src/
+│   ├── main.js  products.js
+│   ├── css/     style.css  products.css  listing.css  detail.css  responsive.css
+│   ├── js/      script.js  case-studies-data.js  products-data.js
+│   └── partials/ head.html  header.html  footer.html
+├── vite.config.js  package.json  package-lock.json
+├── LICENSE (MIT)  README.md  project_architecture_and_technical_documentation.md
 ```
 
 ---
 
-## 6. Build Lifecycle & Optimization Matrix
+## 6. Build lifecycle
 
-| Step | Tool / Processor | Purpose |
+| Step | Tool | Purpose |
 |---|---|---|
-| **Entry Resolution** | Vite Multi-Page Engine | Discovers `index.html`, `about/index.html`, and `404.html` as explicit entry modules. |
-| **Component Injection** | `vite-plugin-html-inject` | Inlines `header.html` and `footer.html` into each page before transformation. |
-| **Bundle Consolidation** | Rolldown / Rollup | Aggregates and minifies source assets into singular entry files: `bundle.min.js` and `bundle.min.css`. |
-| **Directory Flattening** | Vite Asset Pipeline | Rewrites asset references and moves `public/` files directly to `dist/`. |
-| **Dev Routing Middleware** | Custom Vite Plugin | Rewires 404 error routing during local development to match production server behavior. |
+| Entry resolution | Vite multi-page | Every HTML file in `rollupOptions.input` becomes an entry |
+| Component injection | `vite-plugin-html-inject` | Inlines head / header / footer partials |
+| Bundling | Rolldown (Vite 8) | One minified CSS file and per-entry JS files |
+| Static pass-through | `public/` | Copied to `dist/` untouched |
+| Dev 404 | Custom Vite plugin | Mirrors production 404 behaviour locally |
 
 ---
 
-## 7. Performance & Quality Benchmarks
+## 7. SEO, discovery and hosting files
 
-* **Zero FOUC:** The preloader blocks visual rendering until stylesheets are parsed, fading into view without layout shift.
-* **Target Load Time:** < 500ms on broadband connections; < 1.5s on simulated 4G mobile devices.
-* **Lighthouse Targets:**
-  * Performance: 95+
-  * Accessibility (WCAG 2.1 AA): 100
-  * Best Practices: 100
-  * SEO: 100
+| File | Notes |
+|---|---|
+| `public/sitemap.xml` | All 15 pages plus the resume PDF, absolute `/ask/` URLs |
+| `public/robots.txt` | Allow all, links the sitemap |
+| `public/llms.txt` | Markdown profile for AI agents: role, products, case studies, profiles |
+| `public/manifest.json` | Relative `start_url` and `scope` so it works under `/ask/` |
+| `public/_redirects` | Only used on Netlify / Cloudflare Pages; ignored by GitHub Pages |
+
+When pages are added or renamed, update the sitemap, `llms.txt`, `vite.config.js` and the data files together.
+
+---
+
+## 8. Performance and quality
+
+Measures taken for Lighthouse 100:
+- No hidden-until-JS gate; theme applied synchronously, so first paint is styled.
+- Hero heading, role line and navigation are server-rendered HTML; letter animation is CSS only.
+- Below-the-fold portrait is lazy (it was previously preloaded at high priority).
+- GSAP (about 100 KB) and the jsDelivr connection are removed from every page that does not pin sections.
+- Canvas rendering stops when idle; scroll handlers are `requestAnimationFrame`-throttled; per-frame `getComputedStyle` removed.
+- Fonts load asynchronously with `display=swap`; images carry explicit `width` / `height`.
+
+SEO hygiene: a small `html-minify` plugin in `vite.config.js` collapses whitespace and comments in every served page (raising the text-to-HTML ratio above 25%), meta descriptions stay under about 140 characters, Twitter cards fall back to the Open Graph tags, and marquee tickers are written once in HTML and repeated by `script.js` so keywords are not duplicated in the markup.
+
+Dev-only note: `npm run dev` serves unbundled modules and injects CSS through JavaScript, so a small plugin in `vite.config.js` hides the page until `html.is-ready` is set to avoid a flash of unstyled HTML. Production builds link the stylesheet in `<head>` and do not need it. **Never run Lighthouse against `localhost:5173`**; use `npm run build` and `npm run preview`.
+
+Targets: Performance 100, Accessibility 100, Best Practices 100, SEO 100. Verify with Lighthouse in an incognito window on the deployed URL, using the mobile profile.
