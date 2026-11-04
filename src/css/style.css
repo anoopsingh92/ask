@@ -355,8 +355,8 @@ h1 .ln {
 h1 span.ch {
 	display: inline-block;
 	transform: translateY(110%) rotate(8deg);
-	animation: up 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
-	animation-delay: calc(var(--i) * 45ms + 0.2s);
+	animation: up 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+	animation-delay: calc((var(--i, 0) + var(--o, 0)) * 35ms);
 	transition:
 		transform 0.3s,
 		color 0.3s;
@@ -374,6 +374,23 @@ h1 span.ch:hover {
 
 .out span.ch:hover {
 	-webkit-text-stroke: 2px var(--ac);
+}
+
+h1 .ch:nth-child(2) { --i: 1; }
+h1 .ch:nth-child(3) { --i: 2; }
+h1 .ch:nth-child(4) { --i: 3; }
+h1 .ch:nth-child(5) { --i: 4; }
+h1 .ln + .ln .ch { --o: 5; }
+
+.hero-right {
+	animation: hero-in 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) 0.1s backwards;
+}
+
+@keyframes hero-in {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
 }
 
 @keyframes up {
@@ -3049,4 +3066,55 @@ footer {
 	.fbig em {
 		animation: none;
 	}
+}
+
+
+/* ---------- Pills stagger (replaces inline --i) ---------- */
+.pills span:nth-child(1) { --i: 0; }
+.pills span:nth-child(2) { --i: 1; }
+.pills span:nth-child(3) { --i: 2; }
+.pills span:nth-child(4) { --i: 3; }
+.pills span:nth-child(5) { --i: 4; }
+.pills span:nth-child(6) { --i: 5; }
+.pills span:nth-child(7) { --i: 6; }
+.pills span:nth-child(8) { --i: 7; }
+.pills span:nth-child(9) { --i: 8; }
+.pills span:nth-child(10) { --i: 9; }
+
+/* ---------- Homepage: How I work ---------- */
+.how-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.how-grid .box {
+	flex: 1 1 240px;
+	min-width: 0;
+	padding: 24px;
+}
+
+.how-grid h3 {
+	margin: 0 0 8px;
+	font-size: 1.1rem;
+}
+
+.how-grid p {
+	margin: 0;
+	color: var(--mut);
+	line-height: 1.7;
+}
+
+.contact-lead {
+	max-width: 62ch;
+	margin: 0 0 24px;
+	color: var(--mut);
+	line-height: 1.7;
+}
+
+.how-lead {
+	max-width: 62ch;
+	margin: 0 0 24px;
+	color: var(--mut);
+	line-height: 1.7;
 }

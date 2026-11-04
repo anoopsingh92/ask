@@ -7,6 +7,22 @@
     <title>Case Study: FlexiStyle Base Theme Architecture — Anoop Singh</title>
     <meta name="description"
       content="Technical breakdown of designing an unopinionated, lightweight, CSS variable-first base theme for Drupal 9, 10, and 11." />
+    <link rel="canonical" href="https://anoopsingh92.github.io/ask/case-studies/flexi-style/">
+
+    <!-- Open Graph / Social Sharing Meta Tags -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Anoop Singh">
+    <meta property="og:title" content="Case Study: FlexiStyle Base Theme Architecture — Anoop Singh">
+    <meta property="og:description" content="Technical breakdown of designing an unopinionated, lightweight, CSS variable-first base theme for Drupal 9, 10, and 11.">
+    <meta property="og:url" content="https://anoopsingh92.github.io/ask/case-studies/flexi-style/">
+    <meta property="og:image" content="https://anoopsingh92.github.io/ask/assets/img/screenshot-wide.png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta property="og:image:alt" content="Case Study: FlexiStyle Base Theme Architecture — Anoop Singh">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+
     <load src="/src/partials/head.html" />
   </head>
 
@@ -14,39 +30,39 @@
     <a class="skip-link" href="#main-study">Skip to main content</a>
     <load src="/src/partials/header.html" />
 
-    <main id="main-study"
-      style="max-width: 1100px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
+    <main id="main-study" class="detail-main">
+      <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="../../">Home</a><i>/</i><a href="../">Case Studies</a><i>/</i><span aria-current="page">FlexiStyle</span></div>
 
-      <header style="margin-bottom: 3rem;">
-        <h1
-          style="font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.15; margin: 0.4em 0 0.3em; letter-spacing: -0.03em;">
+      <header class="detail-hero">
+        <div class="detail-meta"><span class="detail-badge">Case Study</span><span class="detail-badge is-plain">CSS Architecture · Open Source</span><span class="detail-badge is-plain">Drupal Community</span></div>
+        <h1 class="detail-h1">
           FlexiStyle: Unopinionated Modern CSS Base Theme
         </h1>
-        <p style="color: var(--mut); font-size: 1.15rem; line-height: 1.6; max-width: 72ch;">
+        <p class="detail-lead">
           How building a lightweight, zero-dependency foundation for Drupal 9, 10, and 11 slashed theme asset bloat by
           over 60% while maintaining WCAG 2.1 AA compliance out of the box.
         </p>
       </header>
 
-      <div class="stats" style="margin-bottom: 40px;">
+      <div class="detail-stats">
         <div class="stat"><b>100</b><span>PageSpeed Score</span></div>
         <div class="stat"><b>&lt;14KB</b><span>CSS Footprint</span></div>
         <div class="stat"><b>0%</b><span>JS Bloat</span></div>
         <div class="stat"><b>D9-11</b><span>Core Compatibility</span></div>
       </div>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">The Challenge</h2>
-        <p style="color: var(--mut); line-height: 1.7;">
+      <section class="box detail-section">
+        <h2 class="detail-h2">The Challenge</h2>
+        <p class="detail-text">
           Traditional Drupal core starter themes (such as Olivero or Classy) inject substantial opinionated CSS and
           JavaScript. Developers building custom digital products frequently spent days resetting default styles,
           stripping unwanted layout constraints, and dealing with conflicting utility classes.
         </p>
       </section>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Architectural Solution</h2>
-        <ul style="color: var(--mut); line-height: 1.8; padding-left: 20px;">
+      <section class="box detail-section">
+        <h2 class="detail-h2">Architectural Solution</h2>
+        <ul class="detail-list">
           <li><strong>CSS Custom Property Engine:</strong> Defined design tokens (colors, spacing, typography scales)
             directly in CSS variables to allow seamless dark/light mode toggling without compiling tools.</li>
           <li><strong>Zero JS Overhead:</strong> Eliminated all JavaScript runtime dependencies in the base layer,
@@ -56,25 +72,33 @@
         </ul>
       </section>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Tech Stack & Community Link</h2>
-        <div class="chips" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Drupal
+      <section class="box detail-section">
+        <h2 class="detail-h2">Tech Stack & Community Link</h2>
+        <div class="detail-chips">
+          <span class="detail-chip">Drupal
             9 / 10 / 11</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Twig
+          <span class="detail-chip">Twig
             3</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">CSS
+          <span class="detail-chip">CSS
             Variables</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">WCAG
+          <span class="detail-chip">WCAG
             2.1 AA</span>
         </div>
         <a class="btn p" href="https://www.drupal.org/project/flexi_style" target="_blank" rel="noopener">View on
           Drupal.org &rarr;</a>
       </section>
+      <aside class="box detail-cta">
+        <div>
+          <h2>See the product behind this case study</h2>
+          <p>FlexiStyle Base Theme: features, installation steps and downloads.</p>
+        </div>
+        <a class="btn p" href="../../products/flexi-style/">View FlexiStyle Base Theme &rarr;</a>
+      </aside>
+
+      <div class="detail-nav" role="navigation" aria-label="More case studies">
+        <a class="detail-nav-link" rel="prev" href="../anoop-singh-portfolio/"><span>&larr; Previous</span><b>Personal Portfolio: Sub-Second Multi-Page App Architecture</b></a>
+        <a class="detail-nav-link detail-nav-next" rel="next" href="../flexistyle-bootstrap/"><span>Next &rarr;</span><b>FlexiStyle Bootstrap: Modern Vanilla Sub-Theme Framework</b></a>
+      </div>
     </main>
 
     <load src="/src/partials/footer.html" />

@@ -4,6 +4,50 @@ import { resolve } from 'node:path';
 import { defineConfig, loadEnv } from 'vite';
 import injectHTML from 'vite-plugin-html-inject';
 
+// Collapses whitespace, indentation and comments in the served HTML (script, style, pre and
+// textarea contents are left untouched). Smaller HTML means a higher text-to-HTML ratio.
+const BLOCK = 'html|head|body|title|meta|link|script|style|header|footer|nav|main|section|article|aside|div|p|h[1-6]|ul|ol|li|dl|dt|dd|form|table|thead|tbody|tr|td|th|figure|figcaption|picture|source|noscript|br|hr|pre';
+const minifyHtml = html =>
+  html
+    .split(/(<(script|style|pre|textarea)\b[\s\S]*?<\/\2>)/gi)
+    // split() with two groups returns [text, whole, tag, text, ...]; keep every 3rd item as text
+    .map((part, i) => {
+      if (i % 3 !== 0) return i % 3 === 1 ? part : '';
+      return part
+        .replace(/<!--(?!\[if)[\s\S]*?-->/g, '')
+        .replace(/\s+/g, ' ')
+        .replace(new RegExp('> <(?=/?(?:' + BLOCK + ')\\b)', 'gi'), '><')
+        .replace(new RegExp('(</?(?:' + BLOCK + ')\\b[^>]*>) ', 'gi'), '$1')
+        .replace(new RegExp(' (?=</?(?:' + BLOCK + ')\\b)', 'gi'), '');
+    })
+    .join('');
+
+const htmlMinifyPlugin = () => ({
+  name: 'html-minify',
+  transformIndexHtml: {
+    order: 'post',
+    handler: html => minifyHtml(html)
+  }
+});
+
+// Dev server only: Vite injects CSS through JavaScript while developing, so the
+// unstyled HTML would flash before the styles arrive. Hide the page until script.js
+// adds html.is-ready (after the CSS modules have been applied). Production builds
+// link the stylesheet in <head>, so they never need this.
+const devNoFlashPlugin = () => ({
+  name: 'dev-no-flash',
+  apply: 'serve',
+  transformIndexHtml() {
+    return [
+      {
+        tag: 'style',
+        children: 'html:not(.is-ready){visibility:hidden}',
+        injectTo: 'head-prepend'
+      }
+    ];
+  }
+});
+
 const dev404Plugin = () => ({
   name: 'dev-404-middleware',
   configureServer(server) {
@@ -55,7 +99,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: basePath,
-    plugins: [injectHTML(), dev404Plugin()],
+    plugins: [injectHTML(), htmlMinifyPlugin(), dev404Plugin(), devNoFlashPlugin()],
     server: {
       host: 'localhost',
       port: 5173,

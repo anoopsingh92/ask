@@ -19,19 +19,7 @@
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 </noscript>
 
-<!-- Top of body / inside src/partials/header.html -->
-<style id="preloader-style">
-  html {
-    visibility: hidden;
-    opacity: 0;
-  }
-
-  html.is-ready {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.25s ease-in-out;
-  }
-</style>
+<!-- Theme is applied synchronously so the first paint already has the right colours (no hidden-page gate). -->
 <script>
   // Read saved theme from localStorage, or fall back to system preference
   (function () {

@@ -7,6 +7,22 @@
     <title>Case Study: Performance Portfolio Engineering — Anoop Singh</title>
     <meta name="description"
       content="Engineering a multi-page portfolio site achieving 100 PageSpeed scores, zero CLS, and AI/GEO readiness." />
+    <link rel="canonical" href="https://anoopsingh92.github.io/ask/case-studies/anoop-singh-portfolio/">
+
+    <!-- Open Graph / Social Sharing Meta Tags -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Anoop Singh">
+    <meta property="og:title" content="Case Study: Performance Portfolio Engineering — Anoop Singh">
+    <meta property="og:description" content="Engineering a multi-page portfolio site achieving 100 PageSpeed scores, zero CLS, and AI/GEO readiness.">
+    <meta property="og:url" content="https://anoopsingh92.github.io/ask/case-studies/anoop-singh-portfolio/">
+    <meta property="og:image" content="https://anoopsingh92.github.io/ask/assets/img/screenshot-wide.png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta property="og:image:alt" content="Case Study: Performance Portfolio Engineering — Anoop Singh">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+
     <load src="/src/partials/head.html" />
   </head>
 
@@ -14,29 +30,29 @@
     <a class="skip-link" href="#main-study">Skip to main content</a>
     <load src="/src/partials/header.html" />
 
-    <main id="main-study"
-      style="max-width: 1100px; margin: 0 auto; padding: calc(110px + env(safe-area-inset-top, 0px)) 5vw 80px; min-height: 85vh;">
-      <header style="margin-bottom: 3rem;">
-        <h1
-          style="font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.15; margin: 0.4em 0 0.3em; letter-spacing: -0.03em;">
+    <main id="main-study" class="detail-main">
+      <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="../../">Home</a><i>/</i><a href="../">Case Studies</a><i>/</i><span aria-current="page">Personal Portfolio</span></div>
+      <header class="detail-hero">
+        <div class="detail-meta"><span class="detail-badge">Case Study</span><span class="detail-badge is-plain">Performance Engineering · AI/GEO</span><span class="detail-badge is-plain">Personal Hub</span></div>
+        <h1 class="detail-h1">
           Portfolio Engineering: Sub-Second Performance & AI Discovery
         </h1>
-        <p style="color: var(--mut); font-size: 1.15rem; line-height: 1.6; max-width: 72ch;">
+        <p class="detail-lead">
           Engineering a personal developer hub with Vite, custom HTML injection, responsive canvas particle dynamics,
           GSAP momentum scrolling, and complete GEO / LLM search indexing.
         </p>
       </header>
 
-      <div class="stats" style="margin-bottom: 40px;">
+      <div class="detail-stats">
         <div class="stat"><b>100</b><span>Performance</span></div>
         <div class="stat"><b>100</b><span>SEO Score</span></div>
         <div class="stat"><b>0</b><span>Cumulative Layout Shift</span></div>
         <div class="stat"><b>100%</b><span>AI/GEO Indexing</span></div>
       </div>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Performance Engineering Highlights</h2>
-        <ul style="color: var(--mut); line-height: 1.8; padding-left: 20px;">
+      <section class="box detail-section">
+        <h2 class="detail-h2">Performance Engineering Highlights</h2>
+        <ul class="detail-list">
           <li><strong>Eliminating Render Blocking:</strong> Asynchronous stylesheet loading via media swap techniques
             paired with above-the-fold image preloads (<code>fetchpriority="high"</code>).</li>
           <li><strong>Vite Multi-Page Architecture:</strong> Modular partial injection compiling clean sub-directory
@@ -46,24 +62,24 @@
         </ul>
       </section>
 
-      <section class="box" style="padding: 32px; margin-bottom: 28px;">
-        <h2 style="font-size: 1.5rem; margin-top: 0;">Stack Details</h2>
-        <div class="chips" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">Vite
+      <section class="box detail-section">
+        <h2 class="detail-h2">Stack Details</h2>
+        <div class="detail-chips">
+          <span class="detail-chip">Vite
             8</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">GSAP
+          <span class="detail-chip">GSAP
             ScrollTrigger</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">HTML5
+          <span class="detail-chip">HTML5
             Canvas</span>
-          <span
-            style="font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; color: var(--fg);">JSON-LD
+          <span class="detail-chip">JSON-LD
             / Schema</span>
         </div>
         <a class="btn p" href="/" target="_blank" rel="noopener">Explore Portfolio Home &rarr;</a>
       </section>
+      <div class="detail-nav" role="navigation" aria-label="More case studies">
+        <a class="detail-nav-link" rel="prev" href="../workpulse/"><span>&larr; Previous</span><b>WorkPulse: Enterprise Workforce Management & Analytics SaaS</b></a>
+        <a class="detail-nav-link detail-nav-next" rel="next" href="../flexi-style/"><span>Next &rarr;</span><b>FlexiStyle: Pure CSS Variable Base Theme for Drupal 9–11</b></a>
+      </div>
     </main>
 
     <load src="/src/partials/footer.html" />

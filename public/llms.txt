@@ -1,29 +1,40 @@
 # Anoop Singh
-> Anoop Singh is a Senior Software Engineer and Drupal Specialist with 13+ years of experience specializing in front-end architecture, responsive UI/UX, decoupled CMS implementations, and custom Drupal theming (Drupal 7 – 11).
+> Anoop Singh is a Senior Software Engineer and Drupal specialist with 13+ years of experience in front-end architecture, responsive UI/UX, decoupled CMS implementations and custom Drupal theming (Drupal 7 to 11). Based in Jaipur, India; remote-friendly worldwide.
 
 ## Professional Overview
 - **Role**: Senior Software Engineer at NextOpcode Consulting LLP
-- **Expertise**: Custom Drupal 10/11 Theming, Decoupled Next.js Architectures, React, TypeScript, and Full-Stack Web Engineering.
-- **Location**: Jaipur, India (Remote-friendly worldwide)
+- **Expertise**: Custom Drupal 10/11 theming, decoupled Next.js architectures, React, TypeScript, Tailwind CSS, performance optimization, full-stack web engineering
+- **Community**: Drupal.org contributor with 5+ custom themes, 7+ maintained projects and 125+ issue credits
 
-## Key Links
-- [Portfolio Homepage](https://anoopsingh92.github.io/ask/)
-- [Architectural Case Studies](https://anoopsingh92.github.io/ask/case-studies/)
-- [Full Career Story & Certifications](https://anoopsingh92.github.io/ask/about/)
-- [Drupal Themes & Digital Products](https://anoopsingh92.github.io/ask/products/)
-- [Download Resume (PDF)](https://anoopsingh92.github.io/ask/assets/Anoop-Singh-Resume.pdf)
-- [LinkedIn Profile](https://www.linkedin.com/in/anoopsingh92/)
-- [Drupal.org Profile](https://www.drupal.org/u/anoopsingh92)
-- [GitHub Profile](https://github.com/anoopsingh92)
+## Key Pages
+- [Portfolio Homepage](https://anoopsingh92.github.io/ask/): hero, skills, experience and recommendations
+- [About / Full Career Story](https://anoopsingh92.github.io/ask/about/): timeline, education, certifications and awards
+- [My Products & Apps](https://anoopsingh92.github.io/ask/products/): free Drupal themes and the WorkPulse SaaS platform
+- [Case Studies](https://anoopsingh92.github.io/ask/case-studies/): engineering write-ups with architecture decisions and measurable results
+- [Resume (PDF)](https://anoopsingh92.github.io/ask/assets/Anoop-Singh-Resume.pdf)
 
-## Contributed Drupal Themes
-- FlexiStyle Base Theme (Drupal 9, 10, 11)
-- FlexiStyle Bootstrap Sub-Theme (Drupal 9, 10, 11)
-- FlexiStyle Bootstrap SCSS (Drupal 9, 10, 11)
-- FlexiStyle DXP Theme (Drupal 10, 11)
+## Products & Apps
+- [FlexiStyle Base Theme](https://anoopsingh92.github.io/ask/products/flexi-style/): free CSS-variable base theme, Drupal 9, 10, 11
+- [FlexiStyle Bootstrap](https://anoopsingh92.github.io/ask/products/flexistyle-bootstrap/): free Bootstrap 5 sub-theme, Drupal 9, 10, 11
+- [FlexiStyle Bootstrap SCSS](https://anoopsingh92.github.io/ask/products/flexistyle-bootstrap-scss/): free SCSS token and build workflow, Drupal 9, 10, 11
+- [FlexiStyle DXP](https://anoopsingh92.github.io/ask/products/flexistyle-dxp/): free theme for decoupled and DXP architectures
+- [WorkPulse](https://anoopsingh92.github.io/ask/products/workpulse/): premium AI-powered workforce and project management SaaS
+
+## Case Studies
+- [FlexiStyle Base Theme](https://anoopsingh92.github.io/ask/case-studies/flexi-style/)
+- [FlexiStyle Bootstrap](https://anoopsingh92.github.io/ask/case-studies/flexistyle-bootstrap/)
+- [FlexiStyle Bootstrap SCSS](https://anoopsingh92.github.io/ask/case-studies/flexistyle-bootstrap-scss/)
+- [Headless Drupal DXP Transformation](https://anoopsingh92.github.io/ask/case-studies/flexistyle-dxp/)
+- [WorkPulse SaaS Platform](https://anoopsingh92.github.io/ask/case-studies/workpulse/)
+- [Personal Portfolio Engineering](https://anoopsingh92.github.io/ask/case-studies/anoop-singh-portfolio/)
 
 ## Notable Projects & Migrations
-- Woody Plants 4.0 (Decoupled Next.js & Drupal 11)
-- Great River Learning (Drupal 7 to 11 Migration)
-- Kendall Hunt Higher Education Platforms
-- Valuebound Corporate Portal Redesign (React & PWA)
+- Woody Plants 4.0 (decoupled Next.js frontend with Drupal 11 backend)
+- Great River Learning (Drupal 7 to 11 migration)
+- Kendall Hunt higher education platforms
+- Valuebound corporate portal redesign (React and PWA)
+
+## Profiles
+- [LinkedIn](https://www.linkedin.com/in/anoopsingh92/)
+- [Drupal.org](https://www.drupal.org/u/anoopsingh92)
+- [GitHub](https://github.com/anoopsingh92)

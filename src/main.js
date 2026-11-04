@@ -2,6 +2,8 @@
 import './css/style.css';
 import './css/products.css';
 import './css/listing.css';
+import './css/detail.css';
+import './css/responsive.css';
 import { getAppRoot } from './js/script.js';
 import { caseStudies } from './js/case-studies-data.js';
 
@@ -10,7 +12,7 @@ const esc = (v) =>
 
 const imageUrl = (src) => (/^https?:/.test(src) ? src : getAppRoot() + String(src).replace(/^\/+/, ''));
 
-function cardHTML(cs) {
+function cardHTML(cs, i) {
   const stats = Object.entries(cs.stats || {})
     .map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`)
     .join('');
@@ -18,7 +20,7 @@ function cardHTML(cs) {
   return `
     <article class="ls-card" data-group="${esc(cs.group || '')}">
       <div class="ls-media">
-        <img src="${esc(imageUrl(cs.image))}" width="640" height="400" alt="${esc(cs.title)} preview" loading="lazy" decoding="async">
+        <img src="${esc(imageUrl(cs.image))}" width="640" height="400" alt="${esc(cs.title)} preview" loading="${i < 3 ? 'eager' : 'lazy'}"${i === 0 ? ' fetchpriority="high"' : ''} decoding="async">
         <span class="ls-cat">${esc(cs.category)}</span>
       </div>
       <div class="ls-main-col">
