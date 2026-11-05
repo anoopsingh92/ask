@@ -9,7 +9,7 @@ Personal portfolio, product catalogue and case-study library of **Anoop Singh**,
 
 Live site: **https://anoopsingh92.github.io/ask/**
 
-Built with semantic **HTML5**, modern **CSS3** and vanilla **ESNext JavaScript**, bundled by **Vite** as a multi-page site. **GSAP ScrollTrigger** is loaded on demand, only on pages that use pinned sections.
+Built with semantic **HTML5**, modern **CSS3** and vanilla **ESNext JavaScript**, bundled by **Vite** as a multi-page site. **GSAP ScrollTrigger** is loaded on demand, only on pages that use the pinned About section.
 
 ---
 
@@ -19,6 +19,7 @@ Built with semantic **HTML5**, modern **CSS3** and vanilla **ESNext JavaScript**
 |---|---|
 | `/` | Homepage: hero, about, skills, experience, recommendations, contact |
 | `/about/` | Full career story, education, certifications, awards |
+| `/journey/` | **Career Journey**: filterable timeline from 2012 to today, with the people who helped along the way |
 | `/products/` | **My Products & Apps** listing: Free / Premium tabs, category filters, search, grid / list view |
 | `/products/<slug>/` | Product detail: screenshot, install steps, downloads, spec sidebar, case-study link, previous / next |
 | `/case-studies/` | Case-study listing with filters, search and grid / list view |
@@ -32,6 +33,7 @@ Case studies: the same five, plus `anoop-singh-portfolio`.
 
 ## Features
 
+- **Interactive skill map** on the homepage: pick a skill to see the projects that used it and the skills it pairs with. It loads only when the section is near the screen.
 - **Performance-first**: the page is visible from the first paint (no JavaScript gate), hero text is real HTML, the canvas background only renders while the pointer moves, and GSAP is fetched after load and only where needed.
 - **Shared design system**: one listing stylesheet (`listing.css`) powers both the products and case-study listings with a flexbox grid; one detail stylesheet (`detail.css`) powers every detail page. No inline CSS on these pages.
 - **Responsive on every device**: collapsible mobile menu up to 1100px, fluid type, 3 / 2 / 1 column grids, touch-sized controls, safe-area insets and a wide-screen layout from 1700px.
@@ -50,6 +52,7 @@ anoopsingh92/
 ├── index.html                           # Homepage
 ├── 404.html
 ├── about/index.html
+├── journey/index.html                   # Career journey timeline
 ├── products/
 │   ├── index.html                       # Listing
 │   └── <slug>/index.html                # 5 product pages
@@ -68,6 +71,8 @@ anoopsingh92/
 │   │   ├── products.css                 # Product detail content styles
 │   │   ├── listing.css                  # Global listing / grid styles (products + case studies)
 │   │   ├── detail.css                   # Global detail-page styles
+│   │   ├── skillmap.css                 # Homepage skill map
+│   │   ├── journey.css                  # Career journey timeline
 │   │   └── responsive.css               # Mobile menu, touch targets, device tweaks (loaded last)
 │   ├── js/
 │   │   ├── script.js                    # Theme, menu, scroll, canvas, GSAP loader, nav state
@@ -121,6 +126,12 @@ Pushing to `main`, `master` or `development` runs `.github/workflows/build-minif
 3. Register it in `vite.config.js`, `public/sitemap.xml` and `public/llms.txt`.
 
 ---
+
+## Ads and affiliate links
+
+Every case-study and product page has an "Advertise or partner on this page" section (product pages also get a 300 x 250 sidebar slot). No ad network or third-party script is loaded, so speed and privacy are unaffected, and each slot reserves its height so nothing shifts.
+
+To sell a spot, open `src/js/ads-data.js` and add an entry to `sponsors` (a banner or text card) or `affiliates` (the "Recommended tools" list). Leave `pages` empty to show it everywhere, or list page ids such as `flexi-style`. Paid links are rendered with `rel="sponsored nofollow noopener"`, a visible "Sponsored" tag and, for affiliates, a disclosure line.
 
 ## Performance notes
 

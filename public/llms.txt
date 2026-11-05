@@ -3,12 +3,15 @@
 
 ## Professional Overview
 - **Role**: Senior Software Engineer at NextOpcode Consulting LLP
-- **Expertise**: Custom Drupal 10/11 theming, decoupled Next.js architectures, React, TypeScript, Tailwind CSS, performance optimization, full-stack web engineering
+- **Expertise**: Custom Drupal theming (Drupal 8+ and Drupal CMS), Acquia Site Studio, HTML, CSS, SCSS and LESS, all Bootstrap versions, Next.js, React, Progressive Web Apps, performance optimization, SEO and accessibility
+- **Tools**: Gulp, Koala, Composer, NPM, Drush, DDEV, Docker, Git, GitHub, GitLab, Bitbucket, Pantheon, Acquia, Lighthouse, PageSpeed Insights, GTmetrix, Google Search Console, GA4, Photoshop, Adobe XD, Cursor, Visual Studio and AI assistants (ChatGPT, Claude, Gemini, Google AI Studio)
+- **Career start**: Oct 2012 as a data entry operator at Dice Infocom Pvt. Ltd., Jaipur; web designer there from Jan 2013 to Sep 2016, then Maan Softwares, Valuebound, Ekfrazo and NextOpcode
 - **Community**: Drupal.org contributor with 5+ custom themes, 7+ maintained projects and 125+ issue credits
 
 ## Key Pages
 - [Portfolio Homepage](https://anoopsingh92.github.io/ask/): hero, skills, experience and recommendations
 - [About / Full Career Story](https://anoopsingh92.github.io/ask/about/): timeline, education, certifications and awards
+- [Career Journey](https://anoopsingh92.github.io/ask/journey/): timeline from data entry operator (2012) to senior software engineer, with jobs, studies, awards and mentors
 - [My Products & Apps](https://anoopsingh92.github.io/ask/products/): free Drupal themes and the WorkPulse SaaS platform
 - [Case Studies](https://anoopsingh92.github.io/ask/case-studies/): engineering write-ups with architecture decisions and measurable results
 - [Resume (PDF)](https://anoopsingh92.github.io/ask/assets/Anoop-Singh-Resume.pdf)

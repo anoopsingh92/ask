@@ -3,6 +3,9 @@ import './css/style.css';
 import './css/products.css';
 import './css/listing.css';
 import './css/detail.css';
+import './css/skillmap.css';
+import './css/journey.css';
+import './css/ads.css';
 import './css/responsive.css';
 import { getAppRoot } from './js/script.js';
 import { caseStudies } from './js/case-studies-data.js';
@@ -130,4 +133,34 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initCaseStudies);
 } else {
   initCaseStudies();
+}
+
+// Interactive skill map (homepage): loaded only when the section is about to be seen
+const skillMapRoot = document.getElementById('skill-map');
+if (skillMapRoot) {
+  const loadSkillMap = () => import('./js/skill-map.js').then((m) => m.initSkillMap(skillMapRoot, getAppRoot()));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          loadSkillMap();
+        }
+      },
+      { rootMargin: '400px' }
+    );
+    io.observe(skillMapRoot);
+  } else {
+    loadSkillMap();
+  }
+}
+
+// Career journey page: filters and progress line
+if (document.getElementById('jt')) {
+  import('./js/journey.js').then((m) => m.initJourney());
+}
+
+// Ad and affiliate slots on detail pages
+if (document.querySelector('.ad-slot')) {
+  import('./js/ads.js').then((m) => m.initAds(getAppRoot()));
 }

@@ -34,7 +34,7 @@ GitHub Actions  (.github/workflows/build-minify.yml)
 actions/deploy-pages  ->  https://anoopsingh92.github.io/ask/
 ```
 
-`dist/` contains 17 HTML entries (home, about, 404, 2 listings, 5 products, 6 case studies), the hashed-free bundle files and everything from `public/`.
+`dist/` contains 17 HTML entries (home, about, journey, 404, 2 listings, 5 products, 6 case studies), the hashed-free bundle files and everything from `public/`.
 
 ---
 
@@ -57,6 +57,8 @@ Imported in this order from `src/main.js` (later layers win):
 |---|---|
 | `style.css` | Design tokens (`--ac`, `--fg`, `--card`, ...), nav, hero, homepage sections, shared components |
 | `products.css` | Product-detail content blocks (lists, code, sidebar rows, command chip) |
+| `ads.css` | Ad and affiliate slots on detail pages |
+| `skillmap.css` / `journey.css` | Homepage skill map and the career timeline |
 | `listing.css` | Prefix `ls-`: page shell, hero, tabs, toolbar, **flexbox** grid / list cards, empty state |
 | `detail.css` | Breadcrumb, detail hero, stats, numbered sections, CTA, previous / next, flex product layout |
 | `responsive.css` | Mobile menu, touch targets, safe areas, phone / landscape / 4K adjustments |
@@ -72,14 +74,21 @@ Grids on listing pages are flexbox: a `--ls-cols` custom property (3, 2 or 1) se
 - **Mobile menu:** `#menu` toggles `nav.is-open`; closes on link click, Escape, outside click and when the viewport grows past 1100px.
 - **Active navigation:** `updateActiveNav()` highlights the current page link from the first URL segment, or runs a scroll-spy on the homepage. It is throttled with `requestAnimationFrame` and also runs on load, `hashchange` and `pageshow`.
 - **Canvas particles:** the grid is drawn once, redrawn while points are settling or the pointer was active in the last 1.5s, paused when the tab is hidden, and recoloured on theme change. Setup is deferred with `requestIdleCallback`.
-- **On-demand GSAP:** pages containing `.about-pinned-section` or `#work.work-pinned-section` load GSAP and ScrollTrigger from jsDelivr after the window `load` event (during idle time). Other pages never request them.
+- **On-demand GSAP:** pages containing `.about-pinned-section` load GSAP and ScrollTrigger from jsDelivr after the window `load` event (during idle time). Other pages never request them. The "earlier work" projects are a plain vertical list (no pinning), so nothing shifts when scripts finish loading.
 - **Reveals and counters:** one `IntersectionObserver` adds `.in` to `.rv` elements and animates `[data-n]` counters.
 
 ### 4.2 Listings
 - `src/main.js` renders the case-study listing from `case-studies-data.js` (filter pills with counts, search, grid / list toggle, empty state). The first three images load eagerly, the first with `fetchpriority="high"`.
 - `src/products.js` adds the same behaviour to the static product cards and an extra **Free / Premium** tab group (`data-p`). The grid / list choice is shared by both listings through `localStorage["ls-view"]`.
 
-### 4.3 Service worker
+### 4.3 Skill map and career journey
+- `src/js/skills-data.js` holds the skills, categories and project links. `skill-map.js` renders the map into `#skill-map` and is imported dynamically by `main.js` when the section is within 400px of the viewport, so it costs nothing on first load. The section ships with a readable, crawlable list of the same skills in the HTML; the map replaces it once loaded. The old "skillset & tools" pills section was merged into it. "Pairs with" is computed from shared projects.
+- `/journey/` is a static, crawlable `<ol class="jt">` timeline (HTML first). `journey.js` only adds the type filters and the progress highlight.
+
+### 4.4 Ads and affiliate slots
+Detail pages ship static "Advertise here" placeholders (`.ad-section`, `.ad-slot[data-slot]`). `src/js/ads.js` is imported only when a slot exists and replaces a placeholder with a sponsor from `src/js/ads-data.js`, or fills the "Recommended tools" list with matching affiliates. Slot heights are reserved in `ads.css`, links use `rel="sponsored nofollow noopener"`, and every paid element carries a visible label.
+
+### 4.5 Service worker
 `public/sw.js` implements network-first navigation with an offline fallback and stale-while-revalidate for assets. It is **not registered** by default.
 
 ---
@@ -121,7 +130,7 @@ anoopsingh92/
 
 | File | Notes |
 |---|---|
-| `public/sitemap.xml` | All 15 pages plus the resume PDF, absolute `/ask/` URLs |
+| `public/sitemap.xml` | All 16 pages plus the resume PDF, absolute `/ask/` URLs |
 | `public/robots.txt` | Allow all, links the sitemap |
 | `public/llms.txt` | Markdown profile for AI agents: role, products, case studies, profiles |
 | `public/manifest.json` | Relative `start_url` and `scope` so it works under `/ask/` |
