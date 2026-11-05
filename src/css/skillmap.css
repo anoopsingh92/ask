@@ -1,0 +1,212 @@
+/* ===================================================
+   INTERACTIVE SKILL MAP (homepage)
+=================================================== */
+
+.sm-lead {
+	max-width: 62ch;
+	margin: 0 0 24px;
+	color: var(--mut);
+	line-height: 1.7;
+}
+
+.sm {
+	min-height: 460px;
+}
+
+.sm-loading {
+	margin: 0;
+	color: var(--mut);
+	font-family: var(--mono);
+	font-size: 0.85rem;
+}
+
+.sm-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 22px;
+}
+
+.sm-tab {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 16px;
+	border: 1px solid var(--line);
+	border-radius: 99px;
+	background: var(--card);
+	color: var(--fg);
+	font-family: var(--mono);
+	font-size: 0.8rem;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.sm-tab:hover {
+	border-color: var(--ac);
+}
+
+.sm-tab[aria-pressed="true"] {
+	background: var(--ac);
+	border-color: var(--ac);
+	color: var(--on);
+}
+
+.sm-body {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 24px;
+}
+
+.sm-nodes {
+	flex: 1 1 420px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	gap: 10px;
+	min-width: 0;
+}
+
+.sm-node {
+	padding: 9px 16px;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: var(--card);
+	color: var(--fg);
+	font: inherit;
+	font-size: 0.88rem;
+	cursor: pointer;
+	transition: transform 0.2s ease, opacity 0.25s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.sm-node[hidden] {
+	display: none;
+}
+
+.sm-node:hover {
+	transform: translateY(-2px);
+	border-color: var(--ac);
+}
+
+.sm-node.is-linked {
+	border-color: var(--ac);
+	background: color-mix(in srgb, var(--ac) 10%, var(--card));
+}
+
+.sm-node.is-dim {
+	opacity: 0.45;
+}
+
+.sm-node[aria-pressed="true"] {
+	background: var(--ac);
+	border-color: var(--ac);
+	color: var(--on);
+	opacity: 1;
+	box-shadow: 0 8px 22px color-mix(in srgb, var(--ac) 35%, transparent);
+}
+
+.sm-tab:focus-visible,
+.sm-node:focus-visible,
+.sm-pair:focus-visible {
+	outline: 2px solid var(--ac);
+	outline-offset: 2px;
+}
+
+.sm-panel {
+	flex: 1 1 320px;
+	max-width: 440px;
+	min-width: 0;
+	padding: clamp(20px, 3vw, 28px);
+}
+
+.sm-kicker {
+	margin: 0 0 6px;
+	font-family: var(--mono);
+	font-size: 0.72rem;
+	color: var(--ac);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.sm-title {
+	margin: 0 0 8px;
+	font-size: 1.4rem;
+	line-height: 1.25;
+	letter-spacing: -0.02em;
+}
+
+.sm-info {
+	margin: 0 0 18px;
+	color: var(--mut);
+	line-height: 1.65;
+}
+
+.sm-sub {
+	margin: 0 0 8px;
+	font-family: var(--mono);
+	font-size: 0.74rem;
+	color: var(--mut);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.sm-list {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin: 0 0 18px;
+	padding: 0;
+	list-style: none;
+}
+
+.sm-list a {
+	color: var(--ac);
+	text-decoration: none;
+}
+
+.sm-list a:hover {
+	text-decoration: underline;
+}
+
+.sm-none {
+	margin: 0 0 18px;
+	color: var(--mut);
+}
+
+.sm-pairs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.sm-pair {
+	padding: 5px 12px;
+	border: 1px solid var(--line);
+	border-radius: 99px;
+	background: none;
+	color: var(--fg);
+	font: inherit;
+	font-size: 0.78rem;
+	cursor: pointer;
+	transition: border-color 0.2s, color 0.2s;
+}
+
+.sm-pair:hover {
+	border-color: var(--ac);
+	color: var(--ac);
+}
+
+@media (max-width: 900px) {
+	.sm-panel {
+		max-width: none;
+		flex-basis: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sm-node,
+	.sm-tab,
+	.sm-pair {
+		transition: none;
+	}
+}

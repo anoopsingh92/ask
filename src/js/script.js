@@ -15,7 +15,7 @@ function normalizeNavLinks() {
   const rootPath = root.replace(/\/$/, '');
   const isHome = currentPath === rootPath || currentPath === '';
 
-  // 1. In-page anchor hash links (#about, #skillset, #contact)
+  // 1. In-page anchor hash links (#about, #skillmap, #contact)
   document.querySelectorAll('a[data-nav]').forEach(link => {
     const raw = link.getAttribute('href') || '';
     const hashIndex = raw.indexOf('#');
@@ -51,6 +51,10 @@ function normalizeNavLinks() {
     link.href = `${root}case-studies/`;
   });
 
+  // 7. Career journey page
+  document.querySelectorAll('a[data-journey]').forEach(link => {
+    link.href = `${root}journey/`;
+  });
 }
 
 document.addEventListener('DOMContentLoaded', normalizeNavLinks);
@@ -205,7 +209,12 @@ const currentSection = () => {
   return rel.split('/').filter(Boolean)[0] || '';
 };
 
-const PAGE_LINK_ATTR = { about: 'data-page', products: 'data-products', 'case-studies': 'data-studies' };
+const PAGE_LINK_ATTR = {
+  about: 'data-page',
+  products: 'data-products',
+  'case-studies': 'data-studies',
+  journey: 'data-journey'
+};
 
 let navTick = 0;
 function updateActiveNav() {
@@ -227,7 +236,7 @@ function updateActiveNav() {
       return;
     }
 
-    const selector = rawHref.slice(hashIndex); // '#about', '#skillset', ...
+    const selector = rawHref.slice(hashIndex); // '#about', '#skillmap', ...
     if (selector === '#' || selector === '#top') {
       a.classList.remove('on');
       return;
@@ -598,13 +607,13 @@ const EARLIER_PROJECTS = [
         </div>
       </div>
     </div>`
-    ).join('') + '<div class="track-end-spacer" aria-hidden="true"></div>';
+    ).join('');
 })();
 
 /* ===================================================
    GSAP ON DEMAND (only pages with pinned sections load it)
 =================================================== */
-const needsGsap = !!document.querySelector('.about-pinned-section, #work.work-pinned-section');
+const needsGsap = !!document.querySelector('.about-pinned-section');
 const loadScript = src =>
   new Promise((resolve, reject) => {
     const el = document.createElement('script');
@@ -719,63 +728,15 @@ function initAboutPinnedScroll() {
     .to(stats, { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power2.out' }, 2);
 }
 
-/* ===================================================
-   PINNED SCROLLTRIGGER: EARLIER WORK
-=================================================== */
-function initPinnedScroll() {
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  const section = document.querySelector('#work.work-pinned-section');
-  const track = document.getElementById('pinned-track');
-  if (!section || !track) return;
-
-  ScrollTrigger.getAll().forEach(st => {
-    if (st.trigger === section) st.kill();
-  });
-
-  if (document.body.classList.contains('pg-me')) return;
-
-  const getScrollDist = () => {
-    gsap.set(track, { clearProps: 'transform' });
-    const cards = track.querySelectorAll('.detailed-proj-card');
-    if (!cards.length) return 0;
-    const lastCard = cards[cards.length - 1];
-    const trackRect = track.getBoundingClientRect();
-    const lastCardRect = lastCard.getBoundingClientRect();
-    const lastCardRightOffset = lastCardRect.right - trackRect.left;
-    const targetRightEdge = window.innerWidth - window.innerWidth * 0.08;
-    return Math.ceil(Math.max(0, lastCardRightOffset - targetRightEdge));
-  };
-
-  if (window.innerWidth > 720 && !reduce) {
-    gsap.to(track, {
-      x: () => -getScrollDist(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: () => `+=${getScrollDist() + 350}`,
-        pin: true,
-        scrub: 0.8,
-        invalidateOnRefresh: true,
-        anticipatePin: 1
-      }
-    });
-  }
-}
-
 ensureGsap().then(ready => {
   if (!ready) return;
   initAboutPinnedScroll();
-  initPinnedScroll();
   setTimeout(() => ScrollTrigger.refresh(), 400);
 });
 
 window.addEventListener('resize', () => {
   if (typeof ScrollTrigger !== 'undefined') {
     initAboutPinnedScroll();
-    initPinnedScroll();
     ScrollTrigger.refresh();
   }
 });
@@ -1066,7 +1027,6 @@ function setView(isMe, targetHash = '') {
     requestAnimationFrame(() => {
       if (typeof ScrollTrigger !== 'undefined') {
         initAboutPinnedScroll();
-        initPinnedScroll();
         ScrollTrigger.refresh();
       }
       if (targetHash && targetHash !== '#top') {
