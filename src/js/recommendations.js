@@ -1,0 +1,107 @@
+// "What people say": LinkedIn recommendations, rendered when the section is near the screen.
+export const recommendations = [
+  {
+    t: 'He is a very good at what he does. Enjoyed working with you.',
+    n: 'Chandraveer Singh Rathore',
+    r: 'Technical Lead | Helping Businesses Build, Modernise & Scale Drupal and Custom Web Platforms | Drupal 10/11 · PHP · Symfony · APIs · Next.js',
+    a: 'chandraveer.webp'
+  },
+  {
+    t: 'I have worked with Anoop this past fall putting together a website. Anoop was professional, a great communicator, timely, helpful and has built a wonderful website for me. Anoop is easy to work with and I highly recommend him. I have another website I have to redo soon and will use Anoop again without question.',
+    n: 'Tom Fierst',
+    r: 'President at Thomas Fierst Ins Agency',
+    a: 'tom.webp'
+  },
+  {
+    t: 'Anoop has been our lifeline for the redesign of website in Drupal 8 for a large national nonprofit. He has been particularly attentive to detail and has provided clean, mobile-responsive, beautiful results for our team. We are very happy with the themeing work he has completed for us and look forward to engaging with him for additional website work in the future.',
+    n: 'Monica F.',
+    r: 'Accessibility-focused enterprise-level technical project manager and Certified ScrumMaster',
+    a: 'monica.webp'
+  },
+  {
+    t: 'Anoop has worked on my Drupal website for more than a year and has done an outstanding job improving its appearance. He is immediately responsive to my requests and finishes each task quickly.',
+    n: 'Barry Koren, AIA, PhD',
+    r: 'Founder at TimeExchanges',
+    a: 'barry.webp'
+  },
+  {
+    t: 'Anoop is very proficient and skilled web designer with very good knowledge of html and css.He is master in creating websites responsive.He is specialist in drupal theming.',
+    n: 'Deepesh Arora',
+    r: 'Drupal Consultant | PHP | Laravel | NEXT JS | TypeScript',
+    a: 'dipesh.webp'
+  },
+  {
+    t: 'Anoop is a sincere web designer knows the issues and designing very well. He knows what he is going to do and what will be its impact. As well as he worked according to the standards to maintain the quality.',
+    n: 'Shubham Agrawal',
+    r: 'Technical Project Manager @ Xceedance | Technology Management, People Management',
+    a: 'shubham.webp'
+  },
+  {
+    t: 'Anoop having deep knowledge of web designing and solve all the designing related points patiently by following proper drupal standard.',
+    n: 'Bhuvaneshwar Sharma',
+    r: 'Sr. Software Engineer | Developing with Drupal, AngularJS',
+    a: 'bhuv.webp'
+  },
+  {
+    t: 'Anoop have deep knowledge in css and very energetic person. He takes every challenge and complete them by his superb and very effective design. He is mastered in Drupal design, css, and responsive css. It is a great experience with working with anoop.',
+    n: 'Shubham Agrawal',
+    r: 'Technical Project Manager @ Xceedance | Technology Management, People Management',
+    a: 'shubham.webp'
+  }
+];
+
+const LINKEDIN = 'https://www.linkedin.com/in/anoopsingh92/';
+const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>';
+
+export function initRecommendations(root, siteRoot) {
+  const cards = recommendations
+    .map(
+      (r, i) => `
+      <figure class="rc-card box">
+        <div class="rc-top">
+          <span class="rc-badge">${ICON} LinkedIn recommendation</span>
+          <span class="rc-mark" aria-hidden="true">&ldquo;</span>
+        </div>
+        <blockquote class="rc-quote" id="rc-q${i}"><p>${esc(r.t)}</p></blockquote>
+        <button class="rc-more" type="button" aria-expanded="false" aria-controls="rc-q${i}" hidden>Read more</button>
+        <figcaption class="rc-who">
+          <img class="rc-avatar" src="${siteRoot}assets/img/${esc(r.a)}" alt="${esc(r.n)}" width="48" height="48" loading="lazy" decoding="async">
+          <span class="rc-meta"><b>${esc(r.n)}</b><span>${esc(r.r)}</span></span>
+        </figcaption>
+      </figure>`
+    )
+    .join('');
+
+  root.innerHTML = `
+    <div class="rc-bar">
+      <p class="rc-count"><b>${recommendations.length}</b> recommendations from clients and colleagues</p>
+      <a class="btn" href="${LINKEDIN}" target="_blank" rel="noopener">View on LinkedIn &#8599;</a>
+    </div>
+    <div class="rc-grid">${cards}</div>`;
+  root.classList.add('is-ready');
+
+  const refresh = () =>
+    root.querySelectorAll('.rc-card').forEach(card => {
+      const text = card.querySelector('.rc-quote p');
+      const btn = card.querySelector('.rc-more');
+      if (card.classList.contains('is-open')) return;
+      btn.hidden = text.scrollHeight <= text.clientHeight + 1;
+    });
+  requestAnimationFrame(refresh);
+
+  let t = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(refresh, 150);
+  });
+
+  root.addEventListener('click', e => {
+    const btn = e.target.closest('.rc-more');
+    if (!btn) return;
+    const card = btn.closest('.rc-card');
+    const open = card.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Show less' : 'Read more';
+  });
+}

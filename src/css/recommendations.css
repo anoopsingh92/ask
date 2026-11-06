@@ -1,0 +1,223 @@
+/* ===================================================
+   WHAT PEOPLE SAY: LinkedIn recommendations
+=================================================== */
+
+.rc {
+	--rc-gap: 22px;
+	--rc-cols: 3;
+	min-height: 640px; /* reserved until the cards are drawn, so the page does not jump */
+	margin-top: 24px;
+}
+
+.rc.is-ready {
+	min-height: 0;
+}
+
+.rc-static {
+	margin: 0;
+	color: var(--mut);
+}
+
+.rc-static a {
+	color: var(--ac);
+}
+
+/* ---------- Summary bar ---------- */
+.rc-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px 20px;
+	margin-bottom: 24px;
+}
+
+.rc-count {
+	margin: 0;
+	font-family: var(--mono);
+	font-size: 0.85rem;
+	color: var(--mut);
+}
+
+.rc-count b {
+	color: var(--ac);
+	font-size: 1.1rem;
+}
+
+/* ---------- Grid ---------- */
+.rc-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--rc-gap);
+}
+
+@media (max-width: 1099px) {
+	.rc {
+		--rc-cols: 2;
+	}
+}
+
+@media (max-width: 700px) {
+	.rc {
+		--rc-cols: 1;
+	}
+}
+
+/* ---------- Card ---------- */
+.rc-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	flex: 0 0 calc((100% - (var(--rc-cols) - 1) * var(--rc-gap)) / var(--rc-cols));
+	max-width: calc((100% - (var(--rc-cols) - 1) * var(--rc-gap)) / var(--rc-cols));
+	min-width: 0;
+	margin: 0;
+	padding: 26px 24px 22px;
+	border-radius: 22px;
+	overflow: hidden;
+}
+
+.rc-card::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 3px;
+	background: linear-gradient(90deg, var(--ac), var(--ac2));
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.rc-card:hover::before,
+.rc-card:focus-within::before {
+	opacity: 1;
+}
+
+.rc-top {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.rc-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 10px;
+	border-radius: 99px;
+	font-family: var(--mono);
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: #0077b5;
+	background: color-mix(in srgb, #0077b5 12%, var(--card));
+	border: 1px solid color-mix(in srgb, #0077b5 30%, transparent);
+}
+
+.rc-badge svg {
+	width: 12px;
+	height: 12px;
+	fill: currentColor;
+}
+
+.rc-mark {
+	font-size: 4rem;
+	line-height: 0.7;
+	color: var(--ac);
+	opacity: 0.3;
+	font-family: Georgia, serif;
+}
+
+.rc-quote {
+	flex: 1 1 auto;
+	margin: 0;
+}
+
+.rc-quote p {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 6;
+	line-clamp: 6;
+	overflow: hidden;
+	margin: 0;
+	color: var(--fg);
+	font-size: 0.97rem;
+	line-height: 1.7;
+}
+
+.rc-card.is-open .rc-quote p {
+	display: block;
+	-webkit-line-clamp: unset;
+	line-clamp: unset;
+}
+
+.rc-more {
+	align-self: flex-start;
+	margin: -6px 0 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--ac);
+	font-family: var(--mono);
+	font-size: 0.8rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.rc-more:hover {
+	text-decoration: underline;
+}
+
+.rc-more:focus-visible {
+	outline: 2px solid var(--ac);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+.rc-who {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-top: auto;
+	padding-top: 16px;
+	border-top: 1px solid var(--line);
+}
+
+.rc-avatar {
+	flex: 0 0 auto;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid var(--ac);
+}
+
+.rc-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.rc-meta b {
+	font-size: 1rem;
+	color: var(--fg);
+}
+
+.rc-meta span {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	overflow: hidden;
+	font-family: var(--mono);
+	font-size: 0.74rem;
+	line-height: 1.4;
+	color: var(--mut);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rc-card::before {
+		transition: none;
+	}
+}

@@ -4,8 +4,10 @@ import './css/products.css';
 import './css/listing.css';
 import './css/detail.css';
 import './css/skillmap.css';
+import './css/recommendations.css';
 import './css/journey.css';
 import './css/ads.css';
+import './css/awards.css';
 import './css/responsive.css';
 import { getAppRoot } from './js/script.js';
 import { caseStudies } from './js/case-studies-data.js';
@@ -37,7 +39,7 @@ function cardHTML(cs, i) {
     </article>`;
 }
 
-function initCaseStudies() {
+function initCaseStudies(caseStudies) {
   const container = document.getElementById('case-studies-grid');
   if (!container || !caseStudies.length) return;
 
@@ -129,10 +131,8 @@ function initCaseStudies() {
   render();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initCaseStudies);
-} else {
-  initCaseStudies();
+if (document.getElementById('case-studies-grid')) {
+  import('./js/case-studies-data.js').then((m) => initCaseStudies(m.caseStudies));
 }
 
 // Interactive skill map (homepage): loaded only when the section is about to be seen
@@ -163,4 +163,29 @@ if (document.getElementById('jt')) {
 // Ad and affiliate slots on detail pages
 if (document.querySelector('.ad-slot')) {
   import('./js/ads.js').then((m) => m.initAds(getAppRoot()));
+}
+
+// "What people say": drawn only when the section is about to be seen
+const recRoot = document.getElementById('recommendations');
+if (recRoot) {
+  const loadRecs = () => import('./js/recommendations.js').then((m) => m.initRecommendations(recRoot, getAppRoot()));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          loadRecs();
+        }
+      },
+      { rootMargin: '400px' }
+    );
+    io.observe(recRoot);
+  } else {
+    loadRecs();
+  }
+}
+
+// Award certificates: click to enlarge (About page)
+if (document.querySelector('.aw-zoom')) {
+  import('./js/lightbox.js').then((m) => m.initLightbox());
 }
