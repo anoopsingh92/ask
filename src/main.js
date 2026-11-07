@@ -8,6 +8,7 @@ import './css/recommendations.css';
 import './css/journey.css';
 import './css/ads.css';
 import './css/awards.css';
+import './css/contact.css';
 import './css/responsive.css';
 import { getAppRoot } from './js/script.js';
 import { caseStudies } from './js/case-studies-data.js';
@@ -188,4 +189,9 @@ if (recRoot) {
 // Award certificates: click to enlarge (About page)
 if (document.querySelector('.aw-zoom')) {
   import('./js/lightbox.js').then((m) => m.initLightbox());
+}
+
+// Contact page: carry the page name from an ad button into the email subject
+if (document.getElementById('advertise')) {
+  import('./js/contact.js').then((m) => m.initContact());
 }

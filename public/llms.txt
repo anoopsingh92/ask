@@ -13,6 +13,7 @@
 - [Portfolio Homepage](https://anoopsingh92.github.io/ask/): hero, skills, experience and recommendations
 - [About / Full Career Story](https://anoopsingh92.github.io/ask/about/): timeline, education, certifications and awards
 - [Career Journey](https://anoopsingh92.github.io/ask/journey/): timeline from data entry operator (2012) to senior software engineer, with jobs, studies, awards and mentors
+- [Contact](https://anoopsingh92.github.io/ask/contact/): hire me, start a project, Drupal help, advertising and affiliate enquiries, with email templates
 - [My Products & Apps](https://anoopsingh92.github.io/ask/products/): free Drupal themes and the WorkPulse SaaS platform
 - [Case Studies](https://anoopsingh92.github.io/ask/case-studies/): engineering write-ups with architecture decisions and measurable results
 - [Resume (PDF)](https://anoopsingh92.github.io/ask/assets/Anoop-Singh-Resume.pdf)

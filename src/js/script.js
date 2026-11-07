@@ -51,6 +51,11 @@ function normalizeNavLinks() {
     link.href = `${root}case-studies/`;
   });
 
+  // 7b. Contact page
+  document.querySelectorAll('a[data-contact]').forEach(link => {
+    link.href = `${root}contact/`;
+  });
+
   // 7. Career journey page
   document.querySelectorAll('a[data-journey]').forEach(link => {
     link.href = `${root}journey/`;
@@ -213,7 +218,8 @@ const PAGE_LINK_ATTR = {
   about: 'data-page',
   products: 'data-products',
   'case-studies': 'data-studies',
-  journey: 'data-journey'
+  journey: 'data-journey',
+  contact: 'data-contact'
 };
 
 let navTick = 0;
