@@ -19,6 +19,7 @@ Built with semantic **HTML5**, modern **CSS3** and vanilla **ESNext JavaScript**
 |---|---|
 | `/` | Homepage: hero, about, skills, experience, recommendations, contact |
 | `/about/` | Full career story, education, certifications, awards |
+| `/contact/` | **Contact**: five enquiry types (hire, project, Drupal help, advertise, hello), each opening a pre-filled email, plus other places to find me |
 | `/journey/` | **Career Journey**: filterable timeline from 2012 to today, with the people who helped along the way |
 | `/products/` | **My Products & Apps** listing: Free / Premium tabs, category filters, search, grid / list view |
 | `/products/<slug>/` | Product detail: screenshot, install steps, downloads, spec sidebar, case-study link, previous / next |
@@ -33,7 +34,8 @@ Case studies: the same five, plus `anoop-singh-portfolio`.
 
 ## Features
 
-- **Interactive skill map** on the homepage: pick a skill to see the projects that used it and the skills it pairs with. It loads only when the section is near the screen.
+- **Interactive skill map** on the homepage: all 90 technical skills from the toolkit in 14 groups, with search and a "Surprise me" button. Pick a skill to see a small relationship graph of the projects that used it and the skills it pairs with (the graph is hidden on phones; the detail panel stays). It loads only when the section is near the screen.
+- **What people say:** eight LinkedIn recommendations in a three-column grid with "Read more" toggles, drawn when the section is near the screen.
 - **Performance-first**: the page is visible from the first paint (no JavaScript gate), hero text is real HTML, the canvas background only renders while the pointer moves, and GSAP is fetched after load and only where needed.
 - **Shared design system**: one listing stylesheet (`listing.css`) powers both the products and case-study listings with a flexbox grid; one detail stylesheet (`detail.css`) powers every detail page. No inline CSS on these pages.
 - **Responsive on every device**: collapsible mobile menu up to 1100px, fluid type, 3 / 2 / 1 column grids, touch-sized controls, safe-area insets and a wide-screen layout from 1700px.
@@ -52,6 +54,7 @@ anoopsingh92/
 ├── index.html                           # Homepage
 ├── 404.html
 ├── about/index.html
+├── contact/index.html                   # Contact page
 ├── journey/index.html                   # Career journey timeline
 ├── products/
 │   ├── index.html                       # Listing
@@ -71,7 +74,10 @@ anoopsingh92/
 │   │   ├── products.css                 # Product detail content styles
 │   │   ├── listing.css                  # Global listing / grid styles (products + case studies)
 │   │   ├── detail.css                   # Global detail-page styles
+│   │   ├── contact.css                  # Contact page
+│   │   ├── awards.css                   # Achievements cards and certificate viewer
 │   │   ├── skillmap.css                 # Homepage skill map
+│   │   ├── recommendations.css          # "What people say" cards
 │   │   ├── journey.css                  # Career journey timeline
 │   │   └── responsive.css               # Mobile menu, touch targets, device tweaks (loaded last)
 │   ├── js/

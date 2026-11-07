@@ -1,9 +1,4 @@
-// src/products.js: product listing page logic (filters, search, grid/list view, copy buttons)
-import './css/products.css';
-import { loadDownloadCount } from './js/products-data.js';
-
-export * from './js/products-data.js';
-
+// src/products.js: product listing page logic (price tabs, filters, search, grid/list view)
 function initProductListing() {
   const list = document.getElementById('product-list');
   if (!list) return; // not the listing page
@@ -15,8 +10,6 @@ function initProductListing() {
   const viewBtns = document.querySelectorAll('#prod-view button');
   const state = { filter: 'all', price: 'all', query: '' };
   const tabWrap = document.getElementById('prod-tabs');
-
-  ['flexi-style', 'flexistyle-bootstrap', 'flexistyle-bootstrap-scss', 'flexistyle-dxp'].forEach(loadDownloadCount);
 
   // Empty-state message (created once, shown when nothing matches)
   const empty = document.createElement('div');

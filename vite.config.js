@@ -56,12 +56,13 @@ const dev404Plugin = () => ({
         return next();
       }
 
-      const cleanUrl = req.url.replace(/^\/ask/, '').replace(/\/$/, '');
+      const cleanUrl = req.url.split(/[?#]/)[0].replace(/^\/ask/, '').replace(/\/$/, '');
 
       const validPaths = [
         '',
         '/about',
         '/journey',
+        '/contact',
         '/products',
         '/products/flexi-style',
         '/products/flexistyle-bootstrap',
@@ -128,6 +129,7 @@ export default defineConfig(({ mode }) => {
           productDxp: resolve(import.meta.dirname, 'products/flexistyle-dxp/index.html'),
           workpulse: resolve(import.meta.dirname, 'products/workpulse/index.html'),
           journey: resolve(import.meta.dirname, 'journey/index.html'),
+          contact: resolve(import.meta.dirname, 'contact/index.html'),
           caseStudies: resolve(import.meta.dirname, 'case-studies/index.html'),
           caseStudiesAnoopSingh: resolve(import.meta.dirname, 'case-studies/anoop-singh-portfolio/index.html'),
           caseStudiesFlexiStyle: resolve(import.meta.dirname, 'case-studies/flexi-style/index.html'),

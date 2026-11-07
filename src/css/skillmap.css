@@ -10,14 +10,44 @@
 }
 
 .sm {
-	min-height: 460px;
+	min-height: 700px;
 }
 
-.sm-loading {
-	margin: 0;
-	color: var(--mut);
+.sm-tools {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px 16px;
+	margin-bottom: 16px;
+}
+
+.sm-search {
+	flex: 0 1 280px;
+	min-width: 0;
+	padding: 9px 16px;
+	border: 1px solid var(--line);
+	border-radius: 99px;
+	background: var(--card);
+	color: var(--fg);
 	font-family: var(--mono);
-	font-size: 0.85rem;
+	font-size: 0.8rem;
+}
+
+.sm-search::placeholder {
+	color: var(--mut);
+}
+
+.sm-search:focus-visible {
+	outline: none;
+	border-color: var(--ac);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ac) 22%, transparent);
+}
+
+.sm-count {
+	margin: 0;
+	font-family: var(--mono);
+	font-size: 0.78rem;
+	color: var(--mut);
 }
 
 .sm-tabs {
@@ -51,20 +81,50 @@
 	color: var(--on);
 }
 
-.sm-body {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
-	gap: 24px;
+.sm-random {
+	padding: 8px 16px;
+	border: 1px solid var(--ac);
+	border-radius: 99px;
+	background: none;
+	color: var(--ac);
+	font-family: var(--mono);
+	font-size: 0.78rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+
+.sm-random:hover {
+	background: var(--ac);
+	color: var(--on);
+}
+
+.sm-random:focus-visible {
+	outline: 2px solid var(--ac);
+	outline-offset: 2px;
+}
+
+.sm-blurb {
+	margin: 0 0 14px;
+	color: var(--mut);
+	font-size: 0.92rem;
+	line-height: 1.6;
 }
 
 .sm-nodes {
-	flex: 1 1 420px;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
 	gap: 10px;
 	min-width: 0;
+	margin-bottom: 26px;
+}
+
+.sm-stage {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: 24px;
 }
 
 .sm-node {
@@ -113,8 +173,8 @@
 }
 
 .sm-panel {
-	flex: 1 1 320px;
-	max-width: 440px;
+	flex: 1 1 300px;
+	max-width: 420px;
 	min-width: 0;
 	padding: clamp(20px, 3vw, 28px);
 }
@@ -203,10 +263,182 @@
 	}
 }
 
+/* ---------- Relationship graph ---------- */
+.sm-graph {
+	position: relative;
+	flex: 2 1 480px;
+	min-width: 0;
+	min-height: 380px;
+	overflow: hidden;
+	border: 1px solid var(--line);
+	border-radius: 22px;
+	background:
+		radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--ac) 9%, transparent), transparent 62%),
+		var(--card);
+}
+
+.sm-lines {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.sm-edge {
+	stroke: color-mix(in srgb, var(--ac) 55%, transparent);
+	stroke-width: 1.6;
+	stroke-dasharray: 600;
+	stroke-dashoffset: 600;
+	animation: sm-draw 0.7s ease forwards;
+}
+
+.sm-edge--project {
+	stroke: color-mix(in srgb, var(--ac2) 65%, transparent);
+	stroke-width: 2;
+}
+
+.sm-edge--thin {
+	stroke-width: 1;
+	opacity: 0.5;
+}
+
+.sm-edge--soft {
+	stroke-dasharray: 4 5;
+	stroke-dashoffset: 0;
+	animation: none;
+	opacity: 0.6;
+}
+
+.sm-gnode {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	max-width: 150px;
+	padding: 6px 12px;
+	border: 1px solid var(--line);
+	border-radius: 99px;
+	background: var(--card);
+	color: var(--fg);
+	font: inherit;
+	font-size: 0.78rem;
+	line-height: 1.25;
+	text-align: center;
+	text-decoration: none;
+	animation: sm-pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) backwards;
+	animation-delay: 0.15s;
+}
+
+.sm-gnode--center {
+	z-index: 2;
+	max-width: 190px;
+	padding: 12px 20px;
+	border-color: var(--ac);
+	background: var(--ac);
+	color: var(--on);
+	font-size: 0.95rem;
+	font-weight: 700;
+	box-shadow: 0 10px 28px color-mix(in srgb, var(--ac) 40%, transparent);
+	animation-delay: 0s;
+}
+
+.sm-gnode--project {
+	z-index: 1;
+	border-radius: 10px;
+	border-color: color-mix(in srgb, var(--ac2) 55%, transparent);
+	background: color-mix(in srgb, var(--ac2) 12%, var(--card));
+	font-weight: 600;
+	transition: transform 0.2s ease;
+}
+
+.sm-gnode--skill {
+	z-index: 1;
+	cursor: pointer;
+	transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.sm-gnode--skill.is-soft {
+	border-style: dashed;
+}
+
+.sm-gnode--skill:hover,
+.sm-gnode--project:hover {
+	transform: translate(-50%, -50%) scale(1.08);
+	border-color: var(--ac);
+}
+
+.sm-legend {
+	position: absolute;
+	left: 14px;
+	bottom: 10px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	font-family: var(--mono);
+	font-size: 0.68rem;
+	color: var(--mut);
+}
+
+.sm-key {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin-left: 8px;
+	border-radius: 50%;
+	border: 1px solid var(--ac);
+}
+
+.sm-key:first-child {
+	margin-left: 0;
+}
+
+.sm-key--project {
+	border-radius: 3px;
+	border-color: var(--ac2);
+	background: color-mix(in srgb, var(--ac2) 25%, transparent);
+}
+
+@keyframes sm-draw {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes sm-pop {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.6);
+	}
+}
+
+/* the graph repeats what the panel says, so phones only get the panel */
+@media (max-width: 760px) {
+	.sm-graph {
+		display: none;
+	}
+
+	.sm-tabs {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		padding-bottom: 6px;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.sm-tab {
+		flex: 0 0 auto;
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.sm-node,
 	.sm-tab,
-	.sm-pair {
+	.sm-pair,
+	.sm-gnode {
 		transition: none;
+		animation: none;
+	}
+
+	.sm-edge {
+		animation: none;
+		stroke-dashoffset: 0;
 	}
 }
