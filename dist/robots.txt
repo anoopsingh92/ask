@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# AI / LLM discovery summary
+# https://anoopsingh92.github.io/ask/llms.txt
+
+Sitemap: https://anoopsingh92.github.io/ask/sitemap.xml
