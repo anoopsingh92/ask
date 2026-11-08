@@ -1,6 +1,4 @@
-<!-- @format -->
-
-# Anoop Singh — Senior Software Engineer & Drupal Specialist
+# Anoop Singh: Senior Software Engineer & Drupal Specialist
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-Live_Site-0369a1?style=for-the-badge&logo=googlechrome&logoColor=white)](https://anoopsingh92.github.io/ask/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077b5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/anoopsingh92/)
@@ -17,17 +15,17 @@ Built with semantic **HTML5**, modern **CSS3** and vanilla **ESNext JavaScript**
 
 ## Pages
 
-| Route                   | Purpose                                                                                                                                       |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`                     | Homepage: hero, about, skills, experience, recommendations, contact                                                                           |
-| `/about/`               | Full career story, education, certifications, awards                                                                                          |
-| `/contact/`             | **Contact**: five enquiry types (hire, project, Drupal help, advertise, hello), each opening a pre-filled email, plus other places to find me |
-| `/journey/`             | **Career Journey**: filterable timeline from 2012 to today, with the people who helped along the way                                          |
-| `/products/`            | **My Products & Apps** listing: Free / Premium tabs, category filters, search, grid / list view                                               |
-| `/products/<slug>/`     | Product detail: screenshot, install steps, downloads, spec sidebar, case-study link, previous / next                                          |
-| `/case-studies/`        | Case-study listing with filters, search and grid / list view                                                                                  |
-| `/case-studies/<slug>/` | Case-study detail: stats, numbered sections, tech chips, product link, previous / next                                                        |
-| `/404.html`             | Not-found page                                                                                                                                |
+| Route | Purpose |
+|---|---|
+| `/` | Homepage: hero, about, skills, experience, recommendations, contact |
+| `/about/` | Full career story, education, certifications, awards |
+| `/contact/` | **Contact**: five enquiry types (hire, project, Drupal help, advertise, hello), each opening a pre-filled email, plus other places to find me |
+| `/journey/` | **Career Journey**: filterable timeline from 2012 to today, with the people who helped along the way |
+| `/products/` | **My Products & Apps** listing: Free / Premium tabs, category filters, search, grid / list view |
+| `/products/<slug>/` | Product detail: screenshot, install steps, downloads, spec sidebar, case-study link, previous / next |
+| `/case-studies/` | Case-study listing with filters, search and grid / list view |
+| `/case-studies/<slug>/` | Case-study detail: stats, numbered sections, tech chips, product link, previous / next |
+| `/404.html` | Not-found page |
 
 Products: `flexi-style`, `flexistyle-bootstrap`, `flexistyle-bootstrap-scss`, `flexistyle-dxp`, `workpulse`.
 Case studies: the same five, plus `anoop-singh-portfolio`.
@@ -104,12 +102,12 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-| Command                         | What it does                               |
-| ------------------------------- | ------------------------------------------ |
-| `npm run dev`                   | Dev server with HMR and a custom 404 route |
-| `npm run build`                 | Production build into `dist/` (base `./`)  |
-| `BASE_PATH=/ask/ npm run build` | Production build for GitHub Pages          |
-| `npm run preview`               | Serve `dist/` locally                      |
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server with HMR and a custom 404 route |
+| `npm run build` | Production build into `dist/` (base `./`) |
+| `BASE_PATH=/ask/ npm run build` | Production build for GitHub Pages |
+| `npm run preview` | Serve `dist/` locally |
 
 On Windows PowerShell use `$env:BASE_PATH="/ask/"; npm run build`.
 
@@ -124,13 +122,11 @@ Pushing to `main`, `master` or `development` runs `.github/workflows/build-minif
 ## Adding content
 
 **New case study**
-
 1. Copy a folder in `case-studies/` and edit the page.
 2. Add a record to `src/js/case-studies-data.js` (`group` must be `open-source`, `headless`, `saas` or `performance`).
 3. Register the page in `vite.config.js` (`input` and `validPaths`) and add it to `public/sitemap.xml` and `public/llms.txt`.
 
 **New product**
-
 1. Copy a folder in `products/` and edit the page.
 2. Add a `.ls-card` to `products/index.html` with `data-c` (category) and `data-p` (`free` or `premium`).
 3. Register it in `vite.config.js`, `public/sitemap.xml` and `public/llms.txt`.
