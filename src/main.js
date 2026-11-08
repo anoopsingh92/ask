@@ -11,7 +11,6 @@ import './css/awards.css';
 import './css/contact.css';
 import './css/responsive.css';
 import { getAppRoot } from './js/script.js';
-import { caseStudies } from './js/case-studies-data.js';
 
 const esc = (v) =>
   String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
