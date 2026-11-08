@@ -1,0 +1,8 @@
+# Redirect rules for hosts that read a _redirects file (Netlify, Cloudflare Pages).
+# GitHub Pages ignores this file: there, /ask/about/ etc. are served from real folders
+# and 404.html is returned automatically for unknown URLs.
+/me             /about/             301
+/about.html     /about/             301
+/products.html  /products/          301
+/case-studies.html /case-studies/   301
+/*              /404.html           404
