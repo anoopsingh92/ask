@@ -1,4 +1,28 @@
 /** @format */
+@font-face {
+	font-family: "Space Grotesk";
+	font-style: normal;
+	font-weight: 300 700;
+	font-display: swap;
+	src: url("/assets/fonts/space-grotesk-latin-wght-normal.woff2")
+		format("woff2");
+}
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/assets/fonts/jetbrains-mono-latin-400-normal.woff2")
+		format("woff2");
+}
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url("/assets/fonts/jetbrains-mono-latin-600-normal.woff2")
+		format("woff2");
+}
 
 :root {
 	--bg: #f3f6fa;
@@ -1648,11 +1672,21 @@ body.pg-me .home {
 	opacity: 0.45;
 }
 
-.ds-seg.m-8 { flex-grow: 8; }
-.ds-seg.m-12 { flex-grow: 12; }
-.ds-seg.m-23 { flex-grow: 23; }
-.ds-seg.m-32 { flex-grow: 32; }
-.ds-seg.m-33 { flex-grow: 33; }
+.ds-seg.m-8 {
+	flex-grow: 8;
+}
+.ds-seg.m-12 {
+	flex-grow: 12;
+}
+.ds-seg.m-23 {
+	flex-grow: 23;
+}
+.ds-seg.m-32 {
+	flex-grow: 32;
+}
+.ds-seg.m-33 {
+	flex-grow: 33;
+}
 
 .ds-list {
 	display: flex;
