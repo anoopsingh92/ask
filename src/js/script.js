@@ -223,6 +223,8 @@ const PAGE_LINK_ATTR = {
 };
 
 let navTick = 0;
+let progTick = 0;
+const progBar = $('#bar');
 function updateActiveNav() {
   const section = currentSection();
 
@@ -265,10 +267,14 @@ function updateActiveNav() {
 window.addEventListener(
   'scroll',
   () => {
-    const h = document.documentElement;
-    const bar = $('#bar');
-    const max = Math.max(1, h.scrollHeight - h.clientHeight);
-    if (bar) bar.style.width = (h.scrollTop / max) * 100 + '%';
+    if (!progTick) {
+      progTick = requestAnimationFrame(() => {
+        progTick = 0;
+        const h = document.documentElement;
+        const max = Math.max(1, h.scrollHeight - h.clientHeight);
+        if (progBar) progBar.style.width = (h.scrollTop / max) * 100 + '%';
+      });
+    }
     if (!navTick) {
       navTick = requestAnimationFrame(() => {
         navTick = 0;
@@ -394,7 +400,11 @@ if (cv) {
     }
   }
   idle(size);
-  window.addEventListener('resize', size);
+  let resizeT = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(size, 150);
+  });
   window.addEventListener(
     'pointermove',
     e => {
@@ -899,15 +909,20 @@ if (location.hash === '#me') {
 =================================================== */
 const upBtn = $('#up');
 const ring = $('#ring');
+let ringTick = 0;
 window.addEventListener(
   'scroll',
   () => {
-    const h = document.documentElement;
-    const s = h.scrollTop || window.scrollY;
-    const maxScroll = Math.max(1, h.scrollHeight - h.clientHeight);
-    const p = Math.min(1, Math.max(0, s / maxScroll));
-    if (ring) ring.style.strokeDashoffset = 125.7 * (1 - p);
-    if (upBtn) upBtn.classList.toggle('show', s > 400);
+    if (ringTick) return;
+    ringTick = requestAnimationFrame(() => {
+      ringTick = 0;
+      const h = document.documentElement;
+      const s = h.scrollTop || window.scrollY;
+      const maxScroll = Math.max(1, h.scrollHeight - h.clientHeight);
+      const p = Math.min(1, Math.max(0, s / maxScroll));
+      if (ring) ring.style.strokeDashoffset = 125.7 * (1 - p);
+      if (upBtn) upBtn.classList.toggle('show', s > 400);
+    });
   },
   { passive: true }
 );
@@ -991,30 +1006,32 @@ if (fw && footer) {
 
   function fx() {
     tick = false;
+    // Read every layout value first, then write, so the browser lays out once per frame
+    const vh = window.innerHeight;
+    const pxOut = [];
     px.forEach(([el, par, s]) => {
       const r = par.getBoundingClientRect();
-      if (r.bottom < -100 || r.top > window.innerHeight + 100) return;
-      el.style.translate =
-        '0 ' + ((r.top + r.height / 2 - window.innerHeight / 2) * -s).toFixed(1) + 'px';
+      if (r.bottom < -100 || r.top > vh + 100) return;
+      pxOut.push([el, '0 ' + ((r.top + r.height / 2 - vh / 2) * -s).toFixed(1) + 'px']);
     });
+    const tlOut = [];
+    tls.forEach(tl => {
+      if (tl.offsetParent) {
+        const r = tl.getBoundingClientRect();
+        tlOut.push([tl, Math.max(0, Math.min(1, (vh * 0.65 - r.top) / r.height)).toFixed(3)]);
+      }
+    });
+    const itOut = [];
+    its.forEach(i => {
+      if (i.offsetParent) itOut.push([i, i.getBoundingClientRect().top < vh * 0.65]);
+    });
+    pxOut.forEach(([el, v]) => (el.style.translate = v));
+    tlOut.forEach(([tl, v]) => tl.style.setProperty('--tp', v));
+    itOut.forEach(([i, on]) => i.classList.toggle('on', on));
     const dy = window.scrollY - lastY;
     lastY = window.scrollY;
     vel += (dy - vel) * 0.18;
     if (mq) mq.style.transform = `skewX(${Math.max(-8, Math.min(8, vel * -0.18)).toFixed(2)}deg)`;
-    tls.forEach(tl => {
-      if (tl.offsetParent) {
-        const r = tl.getBoundingClientRect();
-        tl.style.setProperty(
-          '--tp',
-          Math.max(0, Math.min(1, (window.innerHeight * 0.65 - r.top) / r.height)).toFixed(3)
-        );
-      }
-    });
-    its.forEach(i => {
-      if (i.offsetParent) {
-        i.classList.toggle('on', i.getBoundingClientRect().top < window.innerHeight * 0.65);
-      }
-    });
     if (Math.abs(vel) > 0.05)
       requestAnimationFrame(() => {
         if (!tick) {
