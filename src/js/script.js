@@ -420,24 +420,19 @@ if (cv) {
    GSAP ON DEMAND (only pages with pinned sections load it)
 =================================================== */
 const needsGsap = !!document.querySelector('.about-pinned-section');
-const loadScript = src =>
-  new Promise((resolve, reject) => {
-    const el = document.createElement('script');
-    el.src = src;
-    el.async = false;
-    el.onload = resolve;
-    el.onerror = reject;
-    document.head.appendChild(el);
-  });
 let gsapPromise = null;
 function ensureGsap() {
   if (!needsGsap) return Promise.resolve(false);
   if (!gsapPromise) {
     gsapPromise = new Promise(resolve => {
       const start = () =>
-        loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js')
-          .then(() => loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js'))
-          .then(() => resolve(true))
+        Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
+          .then(([g, st]) => {
+            // the rest of this file uses gsap / ScrollTrigger as globals
+            window.gsap = g.gsap;
+            window.ScrollTrigger = st.ScrollTrigger;
+            resolve(true);
+          })
           .catch(() => resolve(false));
       document.readyState === 'complete' ? idle(start) : window.addEventListener('load', () => idle(start), { once: true });
     });
@@ -534,18 +529,25 @@ function initAboutPinnedScroll() {
     .to(stats, { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power2.out' }, 2);
 }
 
+let aboutResizeTick = 0;
+const refreshAboutPinned = () => {
+  if (aboutResizeTick) return;
+  aboutResizeTick = requestAnimationFrame(() => {
+    aboutResizeTick = 0;
+    if (typeof ScrollTrigger !== 'undefined') {
+      initAboutPinnedScroll();
+      ScrollTrigger.refresh();
+    }
+  });
+};
+
 ensureGsap().then(ready => {
   if (!ready) return;
   initAboutPinnedScroll();
   setTimeout(() => ScrollTrigger.refresh(), 400);
 });
 
-window.addEventListener('resize', () => {
-  if (typeof ScrollTrigger !== 'undefined') {
-    initAboutPinnedScroll();
-    ScrollTrigger.refresh();
-  }
-});
+window.addEventListener('resize', refreshAboutPinned);
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {
     // Page was restored from bfcache
@@ -615,6 +617,17 @@ $$('.xp').forEach(x => {
    PINNED SCROLL STORIES (#me Projects & Certifications)
 =================================================== */
 const pinRenderers = [];
+let pinTick = 0;
+const schedulePinRenderers = () => {
+  if (pinTick) return;
+  pinTick = requestAnimationFrame(() => {
+    pinTick = 0;
+    pinRenderers.forEach(fn => fn());
+  });
+};
+window.addEventListener('scroll', schedulePinRenderers, { passive: true });
+window.addEventListener('resize', schedulePinRenderers, { passive: true });
+
 (function initPinStories() {
   if (reduce) return;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v)),
@@ -765,10 +778,8 @@ const pinRenderers = [];
         req();
       });
 
-      window.addEventListener('scroll', req, { passive: true });
-      window.addEventListener('resize', req);
       pinRenderers.push(req);
-      req();
+      schedulePinRenderers();
 
       const toStep = i => {
         const targetIdx = clamp(i, 0, N - 1);
@@ -828,7 +839,7 @@ function setView(isMe, targetHash = '') {
   if (isMe) {
     sTarget = sCur = 0;
     window.scrollTo(0, 0);
-    requestAnimationFrame(() => pinRenderers.forEach(fn => fn()));
+    schedulePinRenderers();
   } else {
     requestAnimationFrame(() => {
       if (typeof ScrollTrigger !== 'undefined') {
